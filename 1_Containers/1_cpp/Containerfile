@@ -1,0 +1,5 @@
+FROM localhost:5000/fedora:latest
+
+COPY simple .
+
+CMD ["/simple"]
