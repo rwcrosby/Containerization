@@ -1,0 +1,13 @@
+FROM localhost:5000/fedora:latest as BASE
+
+RUN dnf install -y golang
+
+COPY web.go ./
+
+RUN CGO_ENABLED=0 go build -ldflags "-s -w" web.go
+
+FROM scratch
+
+COPY --from=BASE web ./
+
+CMD ["/web"]

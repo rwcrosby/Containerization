@@ -1,0 +1,14 @@
+services:
+
+  cpp:
+
+    build:
+      context: .
+      tags: 
+        - cpp:v3
+      
+    image: cpp:v3
+    container_name: cppv3
+
+    stdin_open: true 
+    tty: true
