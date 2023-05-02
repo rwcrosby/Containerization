@@ -1,0 +1,6 @@
+FROM localhost:5000/python:3.11-slim
+
+RUN pip install -U pip \
+                   flask; \
+    pip cache purge
+    

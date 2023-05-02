@@ -1,0 +1,12 @@
+services:
+
+  python:
+
+    build:
+      context: .
+
+    image: python:v1-big
+    container_name: python-v1-big
+    ports:
+      - 8081:8080
+

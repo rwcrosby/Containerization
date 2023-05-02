@@ -4,10 +4,8 @@ services:
 
     build:
       context: .
-      tags: 
-        - golang:v1
       
     image: golang:v1
-    container_name: golangv1
+    container_name: golang-v1
     ports:
       - "8080:8080"

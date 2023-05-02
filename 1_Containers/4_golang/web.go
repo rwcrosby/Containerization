@@ -12,12 +12,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// Save a copy of this request for debugging.
 	requestDump, err := httputil.DumpRequest(r, true)
 	if err != nil {
-  		fmt.Println(err)
+		fmt.Println(err)
 	} else {
 		fmt.Println(string(requestDump))
 	}
 
-	w.Write([]byte("<h1>Hello World!</h1>"))
+	w.Write([]byte("<h1>Hello from Golang!</h1>"))
 }
 
 func main() {

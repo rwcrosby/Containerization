@@ -1,0 +1,5 @@
+FROM localhost:5000/python:3.11-slim-packages
+
+COPY web.py .
+
+CMD ["python", "web.py"]

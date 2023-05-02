@@ -1,0 +1,9 @@
+FROM localhost:5000/python:3.11
+
+RUN pip install -U pip \
+                   flask; \
+    pip cache purge
+
+COPY web.py .
+
+CMD ["python", "web.py"]

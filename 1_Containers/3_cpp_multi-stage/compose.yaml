@@ -4,11 +4,9 @@ services:
 
     build:
       context: .
-      tags: 
-        - cpp:v3
       
-    image: cpp:v3
-    container_name: cppv3
+    image: cpp:v3-multistage
+    container_name: cpp-v3-multistage
 
     stdin_open: true 
     tty: true

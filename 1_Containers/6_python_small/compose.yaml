@@ -1,0 +1,24 @@
+services:
+
+  python-packages:
+
+    build:
+      context: .
+      dockerfile: Containerfile-packages
+
+    image:
+      localhost:5000/python:3.11-slim-packages
+
+  python-app:
+
+    depends_on:
+      - python-packages
+
+    build:
+      context: .
+      dockerfile: Containerfile 
+
+    image: python:v2-small
+    container_name: python-v2-small
+    ports:
+      - 8082:8080

@@ -4,11 +4,9 @@ services:
 
     build:
       context: .
-      tags: 
-        - cpp:v2
       
-    image: cpp:v2
-    container_name: cppv2
+    image: cpp:v2-small
+    container_name: cpp-v2-small
 
     stdin_open: true 
     tty: true

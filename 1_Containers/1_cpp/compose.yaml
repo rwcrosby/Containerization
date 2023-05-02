@@ -4,11 +4,9 @@ services:
 
     build:
       context: .
-      tags: 
-        - cpp:v1
       
-    image: localhost/cpp:v1
-    container_name: cppv1
+    image: localhost/cpp:v1-big
+    container_name: cpp-v1-big
 
     stdin_open: true 
     tty: true

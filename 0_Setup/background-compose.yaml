@@ -12,9 +12,8 @@ services:
 
   portainer:
 
-    depents_on:
+    depends_on:
       - registry
-    # image: docker.io/portainer/portainer-ce:latest
     image: localhost:5000/portainer-ce:latest
     container_name: portainer
     privileged: true
