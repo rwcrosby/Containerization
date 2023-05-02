@@ -1,0 +1,13 @@
+services:
+
+  jupyterlab:
+
+    build:
+      context: .
+      
+    image: python:v3-jupyter
+    container_name: python-v3-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - "$PWD:/notebooks"

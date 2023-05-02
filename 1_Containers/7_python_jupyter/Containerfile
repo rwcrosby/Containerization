@@ -1,0 +1,15 @@
+FROM localhost:5000/python:3.11-slim
+
+RUN apt-get update; \
+    apt-get install -y gcc
+
+RUN pip install -U jupyterlab; \ 
+    pip cache purge
+
+COPY jupyter_server_config.py .
+
+RUN mkdir /notebooks
+
+ENV JUPYTER_CONFIG_DIR /
+
+CMD ["jupyter", "lab", "--allow-root"]
