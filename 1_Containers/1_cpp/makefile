@@ -3,7 +3,7 @@ CPPFLAGS=-O2
 all: simple
 
 clean: 
-	rm simple
+	-rm simple
 
 simple: simple.cpp
 
