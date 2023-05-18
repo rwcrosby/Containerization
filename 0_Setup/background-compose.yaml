@@ -26,4 +26,6 @@ services:
 
 volumes:
   registry_data:
+    name: podman_registry_data
   portainer_data:
+    name: podman_portainer_data

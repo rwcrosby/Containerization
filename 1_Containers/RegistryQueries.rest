@@ -1,0 +1,13 @@
+GET http://localhost:5000/v2/_catalog HTTP/1.1
+
+###
+
+GET http://localhost:5000/v2/fedora/tags/list HTTP/1.1
+
+###
+
+GET http://localhost:5000/v2/portainer-ce/tags/list HTTP/1.1
+
+###
+
+GET http://localhost:5000/v2/python/tags/list HTTP/1.1
