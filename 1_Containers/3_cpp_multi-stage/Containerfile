@@ -1,6 +1,9 @@
 FROM localhost:5000/fedora:latest as BASE
 
-RUN dnf install -y make gcc-c++ libstdc++-static glibc-static
+RUN dnf install -y make \
+                   gcc-c++ \
+                   libstdc++-static \
+                   glibc-static
 
 COPY makefile simple.cpp ./
 

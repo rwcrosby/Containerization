@@ -1,13 +1,17 @@
-FROM localhost:5000/fedora:latest as BASE
+# FROM localhost:5000/fedora:latest as BASE
 
-RUN dnf install -y golang
+# RUN dnf install -y golang
 
-COPY web.go ./
+FROM localhost:5000/golang:latest as BASE 
+
+WORKDIR /mydir
+
+COPY web.go .
 
 RUN CGO_ENABLED=0 go build -ldflags "-s -w" web.go
 
 FROM scratch
 
-COPY --from=BASE web ./
+COPY --from=BASE /mydir/web ./
 
 CMD ["/web"]

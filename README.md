@@ -10,3 +10,7 @@ Need to install
 
 - glibc-static
 - libstdc++-static
+
+### 7_python_jupyter
+
+Need to specify `:z` on the mounted directory to allow write access.
