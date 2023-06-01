@@ -1,0 +1,11 @@
+k8s:
+  children:
+    master:
+      hosts:
+        192.168.11.101:
+    clients:
+      hosts:
+        192.168.11.102:
+  vars:
+    ansible_user: vagrant
+    # ansible_password: vagrant

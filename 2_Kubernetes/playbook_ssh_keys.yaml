@@ -1,0 +1,10 @@
+---
+
+- name: Setup ssh keys on hosts
+  hosts: k8s
+  tasks:
+    - name: Set authorized key 
+      ansible.posix.authorized_key:
+        user: vagrant
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ecdsa.pub') }}"
