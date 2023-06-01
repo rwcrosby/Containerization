@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "starboard/ubuntu-arm64-20.04.5"
+  # config.vm.box = "bento/fedora-38-arm64"
+  # config.vm.box = "bytesguy/debian-11-arm64"
+
+  config.vm.define "master" do |master|
+
+    master.vm.hostname = "k8s-master"
+    master.vm.network "private_network", ip: "192.168.11.101"
+
+  end
+
+  config.vm.define "client" do |client|
+
+    client.vm.hostname = "k8s-client"
+    client.vm.network "private_network", ip: "192.168.11.102"
+
+  end
+
+  config.vm.provider "vmware_desktop" do |vmw|
+    vmw.gui = true
+    vmw.memory = "4096"
+  end
+  
+end
