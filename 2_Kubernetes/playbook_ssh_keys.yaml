@@ -1,7 +1,8 @@
 ---
 
 - name: Setup ssh keys on hosts
-  hosts: k8s
+  hosts: k8s_vagrant
+
   tasks:
     - name: Set authorized key 
       ansible.posix.authorized_key:

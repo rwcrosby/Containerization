@@ -56,6 +56,12 @@
           - cri-o
           - cri-o-runc
 
+    - name: Enable and start cri-o service
+      systemd:
+        name: crio
+        enabled: true
+        state: started
+
     - name: Disable swap
       shell: |
         swapoff -a

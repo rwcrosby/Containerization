@@ -1,0 +1,18 @@
+---
+
+- hosts: workers
+  remote_user: kube
+
+  tasks:
+
+    - name: Copy join command from Ansible host to the worker nodes.
+      copy:
+        src: /tmp/kubernetes_join_command
+        dest: /tmp/kubernetes_join_command
+        mode: 0777
+
+    - name: Join the Worker nodes to the cluster.
+      become: yes
+      command: sh /tmp/kubernetes_join_command
+      args:
+        creates: /etc/kubernetes/kubelet.conf

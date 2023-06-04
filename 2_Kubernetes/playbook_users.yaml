@@ -3,7 +3,9 @@
 
   tasks:
     - name: Create the kube user account
-      user: name=kube append=yes state=present createhome=yes shell=/bin/bash
+      user: 
+        name: kube 
+        shell: /bin/bash
 
     - name: Allow 'kube' to use sudo without needing a password
       lineinfile:
@@ -15,3 +17,9 @@
       authorized_key: user=kube key="{{item}}"
       with_file:
         - ~/.ssh/id_ecdsa.pub
+
+    - name: Set authorized key for the kube user
+      authorized_key:
+        user: kube
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ecdsa.pub') }}"
