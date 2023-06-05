@@ -1,8 +1,10 @@
+# K8S Installation
+
 Based on: https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/
 
 ## On the Vagrant host
 
-In the `2_Kubernetes/boxes` directory
+In the `2_Kubernetes/k8s_boxes` directory
 
 - Bring the boxes up
 
@@ -19,7 +21,7 @@ In the `2_Kubernetes` directory
 
 - Source the address file into the local environment
 
-    `. boxes/vm_ip_addrs`
+    `. k8s_boxes/vm_ip_addrs`
 
 - Set the ssh keys for the vagrant user
 
@@ -36,3 +38,29 @@ In the `2_Kubernetes` directory
 - Create the k8s master node
 
     `ansible-playbook playbook_k8s_master.yaml`
+
+- Join the k8s worker to the master
+
+    `ansible-playbook playbook_k8s_workers.yaml`
+
+# Local support for kubectl
+
+Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-kubernetes-cluster-ee78feff2d6d
+
+- Install kubectl locally
+
+    `brew install kubectl`
+
+- Copy master's .kube directory
+
+    `scp kube@#K8S_MASTER_IP:/home/kube/.kube .
+
+- Link to the local config directory
+
+    `scp kube@#K8S_MASTER_IP:/home/kube/.kube .
+
+# `kubectl` Commands
+
+- List all pods in all namespaces
+
+    `kubectl get pods --all-namespaces`

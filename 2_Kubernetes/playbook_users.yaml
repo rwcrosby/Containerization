@@ -1,4 +1,5 @@
 - hosts: k8s
+  remote_user: vagrant
   become: yes
 
   tasks:

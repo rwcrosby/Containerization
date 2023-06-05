@@ -5,7 +5,7 @@ k8s_vagrant:
     v_master:
       ansible_host: "{{ lookup('env','K8S_MASTER_IP') }}"
     v_workers:
-      ansible_host: "{{ lookup('env','K8S_CLIENT_IP') }}"
+      ansible_host: "{{ lookup('env','K8S_WORKER1_IP') }}"
   vars:
     ansible_user: vagrant
     ansible_password: vagrant
@@ -16,4 +16,4 @@ k8s:
     master:
       ansible_host: "{{ lookup('env','K8S_MASTER_IP') }}"
     workers:
-      ansible_host: "{{ lookup('env','K8S_CLIENT_IP') }}"
+      ansible_host: "{{ lookup('env','K8S_WORKER1_IP') }}"
