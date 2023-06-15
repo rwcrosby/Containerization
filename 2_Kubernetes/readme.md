@@ -43,7 +43,7 @@ In the `2_Kubernetes` directory
 
     `ansible-playbook playbook_k8s_workers.yaml`
 
-# Local support for kubectl
+## Local support for kubectl
 
 Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-kubernetes-cluster-ee78feff2d6d
 
@@ -53,14 +53,28 @@ Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-ku
 
 - Copy master's .kube directory
 
-    `scp kube@#K8S_MASTER_IP:/home/kube/.kube .
+    `scp -r kube@$K8S_MASTER_IP:/home/kube/.kube .`
 
 - Link to the local config directory
 
-    `scp kube@#K8S_MASTER_IP:/home/kube/.kube .
+    `ln -s $PWD/.kube ~/.kube`
+
+## Portainer
+
+- Create the service
+
+    `kubectl apply -f https://downloads.portainer.io/ce2-18/portainer-agent-k8s-lb.yaml`
+
+- Add the ip address of the host to deal with the load-balancer
+
+    `kubectl patch svc portainer-agent -n portainer -p '{"spec": {"type": "LoadBalancer", "externalIPs":["$K8S_MASTER_IP"]}}'`
 
 # `kubectl` Commands
 
 - List all pods in all namespaces
 
     `kubectl get pods --all-namespaces`
+
+# Notes
+
+- On a new host, make sure the ssh keys have been uploaded via `ansible-playbook playbook_k8s_install.yaml`
