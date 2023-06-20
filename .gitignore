@@ -1,4 +1,5 @@
 simple
 .vagrant
 2_Kubernetes/k8s_boxes/vm_ip_addrs
-2_Kubernetes/.kube
+.kube
+2_Kubernetes/dashboard_token.txt

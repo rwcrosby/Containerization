@@ -12,7 +12,7 @@ In the `2_Kubernetes/k8s_boxes` directory
 
 - Get the box ip addresses into the local environment
 
-    `Get_VM_IPs.sh > vm_ip_addrs`
+    `../Get_VM_IPs.sh > vm_ip_addrs`
 
 
 ## On the Ansible host
@@ -51,13 +51,21 @@ Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-ku
 
     `brew install kubectl`
 
-- Copy master's .kube directory
+- In the `2_kubernetes/k8s_boxes` directory:
 
-    `scp -r kube@$K8S_MASTER_IP:/home/kube/.kube .`
+    - Copy master's .kube directory
 
-- Link to the local config directory
+        `scp -r kube@$K8S_MASTER_IP:/home/kube/.kube .`
 
-    `ln -s $PWD/.kube ~/.kube`
+    - Link to the local config directory
+
+        `ln -s $PWD/.kube ~/.kube`
+
+## Kubernetes Dashboard
+
+- Deploy the dashboard: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+    `ansible-playbook playbook_k8s_dashboard.yaml`
 
 ## Portainer
 
@@ -78,3 +86,5 @@ Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-ku
 # Notes
 
 - On a new host, make sure the ssh keys have been uploaded via `ansible-playbook playbook_k8s_install.yaml`
+
+- Reinstalled the ansible vmware plugin: https://developer.hashicorp.com/vagrant/docs/providers/vmware/installation
