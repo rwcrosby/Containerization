@@ -65,26 +65,55 @@ Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-ku
 
 - Deploy the dashboard: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 
-    `ansible-playbook playbook_k8s_dashboard.yaml`
+    ```
+    ansible-playbook playbook_k8s_dashboard.yaml
+    ```
+
+- Dashboard is accessible:
+
+    - Start proxy for the dashboard
+
+        ```
+        kubectl proxy
+        ```
+
+    - http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
+
+    - Token from `.\dashboard_token.txt
 
 ## Portainer
 
 - Create the service
 
-    `kubectl apply -f https://downloads.portainer.io/ce2-18/portainer-agent-k8s-lb.yaml`
+    ```
+    kubectl apply -f https://downloads.portainer.io/ce2-18/portainer-agent-k8s-lb.yaml
+    ```
 
 - Add the ip address of the host to deal with the load-balancer
 
-    `kubectl patch svc portainer-agent -n portainer -p '{"spec": {"type": "LoadBalancer", "externalIPs":["$K8S_MASTER_IP"]}}'`
+    ```
+    kubectl patch svc portainer-agent -n portainer -p '{"spec": {"type": "LoadBalancer", "externalIPs":["$K8S_MASTER_IP"]}}'
+    ```
 
 # `kubectl` Commands
 
 - List all pods in all namespaces
 
-    `kubectl get pods --all-namespaces`
+    ```
+    kubectl get pods --all-namespaces
+    ```
 
 # Notes
 
 - On a new host, make sure the ssh keys have been uploaded via `ansible-playbook playbook_k8s_install.yaml`
 
 - Reinstalled the ansible vmware plugin: https://developer.hashicorp.com/vagrant/docs/providers/vmware/installation
+    - Had to restart the plugin via launchctl:
+    ```
+    sudo launchctl load -w com.vagrant.vagrant-vmware-utility
+    ```
+
+- Pinned IP addresses for the master and worker1 to 192.168.11.101 and 102
+
+    - Need to figure out how to parameterize
+    - Want to set in `/etc/hosts` on the machines and use the names 

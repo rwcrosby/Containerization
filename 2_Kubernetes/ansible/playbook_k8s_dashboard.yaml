@@ -19,25 +19,25 @@
         state: present
 
     - name: Download dashboard manifest to the cluster.
-      ansible.builtin.get_url:
+      get_url:
         url: https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
         dest: ~/dashboard.yaml
         mode: '0664'
 
     - name: Apply dashboard manifest to the cluster.
       kubernetes.core.k8s:
-        state: present
         src: ~/dashboard.yaml
+        state: present
 
     - name: Create admin user
       kubernetes.core.k8s:
-        state: present
         definition: "{{ lookup('file', 'k8s_files/admin-user_ServiceAccount.yaml') | from_yaml }}"
+        state: present
 
     - name: Bind the admin user to the admin role
       kubernetes.core.k8s:
-        state: present
         definition: "{{ lookup('file', 'k8s_files/admin-user_ClusterRoleBinding.yaml') | from_yaml }}"
+        state: present
         
     - name: Get a bearer token
       shell: "kubectl -n kubernetes-dashboard create token admin-user"

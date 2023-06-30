@@ -1,0 +1,39 @@
+---
+
+- name: Initialize the cluster
+  shell: kubeadm init --pod-network-cidr=10.244.0.0/16
+  become: yes
+  args:
+    creates: /etc/kubernetes/manifests/kube-apiserver.yaml
+
+- name: Create .kube directory
+  file:
+    path: $HOME/.kube
+    state: directory
+
+- name: Copies admin.conf to user's kube config
+  become: yes
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/kube/.kube/config
+    remote_src: yes
+    owner: kube
+
+- name: Download Calico manifest
+  get_url:
+    url: https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
+    dest: $HOME/calico.yaml
+    mode: "0644"
+
+- name: Install Calico CNI
+  shell: kubectl apply -f calico.yaml
+
+- name: Get the token for joining the worker nodes
+  shell: kubeadm token create  --print-join-command
+  register: kubernetes_join_command
+
+- debug:
+    msg: "{{ kubernetes_join_command.stdout }}"
+
+- name: Copy join command to local file.
+  local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="/tmp/kubernetes_join_command" mode=0777
