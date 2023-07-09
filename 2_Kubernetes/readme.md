@@ -2,6 +2,8 @@
 
 Based on: https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/
 
+Note: If direnv isn't installed, make sure to define the environment variables in .envrc
+
 ## On the Vagrant host
 
 In the `2_Kubernetes/k8s_boxes` directory
@@ -9,6 +11,44 @@ In the `2_Kubernetes/k8s_boxes` directory
 - Bring the boxes up
 
     `vagrant up`
+
+## Create the k8s environment
+
+
+In the `2_Kubernetes/ansible` directory
+
+- Create the environment
+
+    ```
+    ansible-playbook k8s_setup.yaml`
+    ```
+
+# `kubectl` Commands
+
+- List all pods in all namespaces
+
+    ```
+    kubectl get pods --all-namespaces
+    ```
+
+# Notes
+
+- On a new host, make sure the ssh keys have been uploaded via `ansible-playbook playbook_k8s_install.yaml`
+
+- Reinstalled the ansible vmware plugin: https://developer.hashicorp.com/vagrant/docs/providers/vmware/installation
+    - Had to restart the plugin via launchctl:
+    ```
+    sudo launchctl load -w com.vagrant.vagrant-vmware-utility
+    ```
+
+- Pinned IP addresses for the master and worker1 to 192.168.11.101 and 102
+
+    - Need to figure out how to parameterize
+    - Want to set in `/etc/hosts` on the machines and use the names 
+
+
+<!-- ----------------------------------- -->
+
 
 - Get the box ip addresses into the local environment
 
@@ -48,6 +88,10 @@ In the `2_Kubernetes` directory
 Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-kubernetes-cluster-ee78feff2d6d
 
 - Install kubectl locally
+
+    https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
+
+    or, on MacOs:
 
     `brew install kubectl`
 
@@ -95,25 +139,3 @@ Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-ku
     kubectl patch svc portainer-agent -n portainer -p '{"spec": {"type": "LoadBalancer", "externalIPs":["$K8S_MASTER_IP"]}}'
     ```
 
-# `kubectl` Commands
-
-- List all pods in all namespaces
-
-    ```
-    kubectl get pods --all-namespaces
-    ```
-
-# Notes
-
-- On a new host, make sure the ssh keys have been uploaded via `ansible-playbook playbook_k8s_install.yaml`
-
-- Reinstalled the ansible vmware plugin: https://developer.hashicorp.com/vagrant/docs/providers/vmware/installation
-    - Had to restart the plugin via launchctl:
-    ```
-    sudo launchctl load -w com.vagrant.vagrant-vmware-utility
-    ```
-
-- Pinned IP addresses for the master and worker1 to 192.168.11.101 and 102
-
-    - Need to figure out how to parameterize
-    - Want to set in `/etc/hosts` on the machines and use the names 
