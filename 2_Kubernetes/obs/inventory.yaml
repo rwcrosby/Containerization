@@ -1,0 +1,19 @@
+---
+
+k8s_vagrant:
+  hosts:
+    v_master:
+      ansible_host: "{{ lookup('env','K8S_MASTER_IP') }}"
+    v_workers:
+      ansible_host: "{{ lookup('env','K8S_WORKER1_IP') }}"
+  vars:
+    ansible_user: vagrant
+    ansible_password: vagrant
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+k8s:
+  hosts:
+    master:
+      ansible_host: "{{ lookup('env','K8S_MASTER_IP') }}"
+    workers:
+      ansible_host: "{{ lookup('env','K8S_WORKER1_IP') }}"
