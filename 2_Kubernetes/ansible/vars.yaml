@@ -1,0 +1,19 @@
+---
+
+- hosts: 
+    - localhost
+  vars:
+    k8s_intf: enp0s8
+  tasks:
+
+    - debug:
+        msg: "{{ ansible_all_ipv4_addresses }}"
+
+    - debug:
+        msg: "{{ ansible_enp0s8 }}"  
+
+    - debug:
+        msg: "{{ ansible_enp0s8.ipv4.address }}"
+
+    - debug:
+        msg: "{{ ansible_facts[k8s_intf].ipv4.address }}"

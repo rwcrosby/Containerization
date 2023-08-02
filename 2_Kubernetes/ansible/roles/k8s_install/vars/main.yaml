@@ -1,4 +1,5 @@
 ---
 
-REMOTE_OS: "xUbuntu_20.04"
+# REMOTE_OS: "xUbuntu_20.04"
+REMOTE_OS: "Debian_12"
 CRI_O_VERSION: "1.27"

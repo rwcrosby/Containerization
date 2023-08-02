@@ -1,0 +1,39 @@
+---
+
+- name: OS user setup
+  vars:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+  block:
+
+    - name: Set authorized key for the base user
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user_id }}"
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ecdsa.pub') }}"
+
+    - name: Create the kube user account
+      become: yes
+      user: 
+        name: kube 
+        shell: /bin/bash
+
+    - name: Allow 'kube' to use sudo without needing a password
+      become: yes
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'kube ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Set authorized key for the kube user
+      become: yes
+      authorized_key:
+        user: kube
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ecdsa.pub') }}"
+
+    - name: Install packages
+      become: yes
+      apt:
+        update_cache: true
+        pkg:
+          - gpg

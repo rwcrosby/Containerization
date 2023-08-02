@@ -2,11 +2,15 @@
 
 - name: Install kubernetes
   become: yes
+  vars:
+    REMOTE_OS: "Debian_12"
+    CRI_O_VERSION: "1.27"
   block:
 
     - name: Add kernel modules
-      modprobe:
+      community.general.modprobe:
         name: "{{ item }}"
+        persistent: present
       loop:
         - overlay
         - br_netfilter
@@ -59,8 +63,8 @@
         state: started
 
     - name: Disable swap for k8s
-      shell: |
-        swapoff -a
+      shell: swapoff -a
+      when: ansible_swaptotal_mb > 0
 
     - name: Remove swap from fstab
       lineinfile: 

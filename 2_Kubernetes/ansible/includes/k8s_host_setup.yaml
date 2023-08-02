@@ -1,0 +1,21 @@
+---
+
+- name: Setup to use kubectl on the host
+  become: yes
+  block:
+
+    - name: Add keys for Kubernetes
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: Add deb repo for Kubernetes
+      apt_repository:
+        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+
+    - name: Install Kubernetes packages
+      apt:
+        update_cache: true
+        pkg: 
+          - kubectl 

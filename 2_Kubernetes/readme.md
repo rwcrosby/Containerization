@@ -2,25 +2,50 @@
 
 Based on: https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/
 
-Note: If direnv isn't installed, make sure to define the environment variables in .envrc
+## Building a base box
 
-## On the Vagrant host
+- Basic install, system with two network interfaces, one hostonly
 
-In the `2_Kubernetes/k8s_boxes` directory
+- Packages
 
-- Bring the boxes up
+    ```shell
+    su -c "apt-get install sudo network-manager avahi-daemon"
+    su -c "/usr/sbin/usermod -aG sudo rcrosby
+    ```
 
-    `vagrant up`
+- Add base user to sudoers file
+
+    ```shell
+    rcrosby ALL=(ALL) NOPASSWD: ALL
+    ```
+
+- Log out, ssh should be available
+
+## Create clone of the base box
+
+- Generate new mac addresses
+
+- Set hostname
+
+    https://linuxhandbook.com/debian-change-hostname/
+
+
+    ```shell
+    hostnamectl set-hostname new_hostname
+    ```
+
+    Check also /etc/hosts
+
+- reboot
 
 ## Create the k8s environment
-
 
 In the `2_Kubernetes/ansible` directory
 
 - Create the environment
 
     ```
-    ansible-playbook k8s_setup.yaml`
+    ansible-playbook k8s_setup.yaml`--extra-vars ansible-password=xxx
     ```
 
 # `kubectl` Commands

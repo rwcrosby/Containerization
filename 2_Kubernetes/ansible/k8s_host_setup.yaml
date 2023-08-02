@@ -1,0 +1,7 @@
+---
+
+- name: Setup host system for kubectl
+  hosts: localhost
+  tags: host
+  tasks:
+    - include_tasks: includes/k8s_host_setup.yaml
