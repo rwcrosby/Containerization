@@ -3,24 +3,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/name: hello-world
-  name: hello-world
+  name: hello-world-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: hello-world
+      app.kubernetes.io/name: hello-world-pod
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: hello-world
+        app.kubernetes.io/name: hello-world-pod
     spec:
       containers:
       - image: nginx:1.14.2
         name: hello-world
         ports:
-        - containerPort: 8080
+        - containerPort: 80
    
 --- 
 
@@ -30,8 +28,8 @@ metadata:
   name: hello-world
 spec: 
   selector: 
-    app: hello-world
+    app.kubernetes.io/name: hello-world-pod
   type: NodePort 
   ports: 
     - name: http 
-      port: 8080
+      port: 80

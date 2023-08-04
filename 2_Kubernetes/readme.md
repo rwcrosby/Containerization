@@ -48,13 +48,71 @@ In the `2_Kubernetes/ansible` directory
     ansible-playbook k8s_setup.yaml`--extra-vars ansible-password=xxx
     ```
 
-# `kubectl` Commands
+- <2023-08-03 Thu 20:37> Appears that the ip addresses for the pods are the enp0s3 addresses
+
+    - Reset the cluster
+    - Rebuild through k8s install
+    - Init the cluster with the nat interface down 
+
+        ```shell
+        sudo ip link set enp0s3 down
+        sudo systemctl restart networking.service
+        sudo kubeadm init
+        ```
+
+    - Verified that pods have the correct ip's
+
+        ```shell
+        sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl get pods --all-namespaces -o wide
+        ```
+
+    - Restarted the net interface, networking service
+
+    - Rebooted
+
+        Came up with the nat ip's
+
+
+
+
+        ```shell
+        sudo nmcli con show
+        sudo nmcli con down uuid
+        sudo nmcli con up uuid
+        sudo kubeadm config images pull
+        sudo ip link set enp0s3 down
+        sudo kubeadm init
+        sudo systemctl restart networking.service
+        sudo ip route add default via 192.168.56.1 dev enp0s8
+        ```
+
+
+    - Copy the admin.conf to the ~/.kube directory
+
+
+
+## `kubectl` Commands
 
 - List all pods in all namespaces
 
     ```
     kubectl get pods --all-namespaces
     ```
+
+## Allowing pods on the master node
+
+https://computingforgeeks.com/how-to-schedule-pods-on-kubernetes-control-plane-node/?expand_article=1
+
+
+```shell
+kubectl taint nodes --all node-role.kubernetes.io/control-plane- 
+```
+
+## Sample Deployment
+
+https://rtfm.co.ua/en/kubernetes-clusterip-vs-nodeport-vs-loadbalancer-services-and-ingress-an-overview-with-examples/
+
+<2023-08-04 Fri 01:30> Worked through this...all working through the loadbalancer example
 
 # Notes
 
