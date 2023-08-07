@@ -1,22 +1,16 @@
 ---
 
-- hosts: master
-  remote_user: kube
+- name: Setup master node
+  vars:
+    ansible_user: kube
+  block:
 
-  tasks:
-
-    - name: Install pip
+    - name: Install Python k8s interface package
       become: yes
       apt:
         update_cache: true
         pkg:
-          - python3-pip
-
-    - name: Install kubernetes Python module
-      become: yes
-      pip:
-        name: kubernetes
-        state: present
+          - python3-kubernetes
 
     - name: Download dashboard manifest to the cluster.
       get_url:
@@ -31,12 +25,12 @@
 
     - name: Create admin user
       kubernetes.core.k8s:
-        definition: "{{ lookup('file', 'k8s_files/admin-user_ServiceAccount.yaml') | from_yaml }}"
+        definition: "{{ lookup('file', '../k8s_files/admin-user_ServiceAccount.yaml') | from_yaml }}"
         state: present
 
     - name: Bind the admin user to the admin role
       kubernetes.core.k8s:
-        definition: "{{ lookup('file', 'k8s_files/admin-user_ClusterRoleBinding.yaml') | from_yaml }}"
+        definition: "{{ lookup('file', '../k8s_files/admin-user_ClusterRoleBinding.yaml') | from_yaml }}"
         state: present
         
     - name: Get a bearer token

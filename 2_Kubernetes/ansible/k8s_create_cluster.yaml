@@ -7,6 +7,7 @@
     - include_tasks: includes/os_setup.yaml
     - include_tasks: includes/k8s_install.yaml
     - include_tasks: includes/k8s_master.yaml
+    - include_tasks: includes/k8s_dashboard.yaml
 
 - name: Setup k8s worker nodes
   hosts: workers

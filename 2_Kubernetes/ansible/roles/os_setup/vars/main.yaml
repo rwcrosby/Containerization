@@ -1,5 +1,0 @@
----
-
-ansible_user: rcrosby
-ansible_password: furbrain
-ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
