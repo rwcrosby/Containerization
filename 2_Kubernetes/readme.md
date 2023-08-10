@@ -1,3 +1,12 @@
+# Next Steps
+
+- <2023-08-07 Mon 18:42> From cri-o to containerd
+    - <2023-08-10 Thu 00:40> Unable to get containerd working, sticking with cri-o
+- <2023-08-07 Mon 18:43> From calico to flannel
+- <2023-08-07 Mon 18:43> Multi-pod deployment
+    - App with database
+- <2023-08-07 Mon 18:45> k3s version of the cluster
+
 # K8S Installation
 
 Based on: https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/

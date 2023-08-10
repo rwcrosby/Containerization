@@ -33,7 +33,7 @@
 
     # https://github.com/cri-o/cri-o/blob/main/install.md#supported-versions
 
-    - name: Add keys for CRI_O
+    - name: Add keys for cri-o
       apt_key:
         url: "{{ item }}"
         state: present

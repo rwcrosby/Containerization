@@ -34,11 +34,11 @@
         state: present
         
     - name: Get a bearer token
-      shell: "kubectl -n kubernetes-dashboard create token admin-user"
+      shell: "kubectl -n kubernetes-dashboard create token admin-user --duration=720h"
       register: kubernetes_bearer_token
 
     - name: Copy the token to the local filesystem
       delegate_to: localhost
       copy:
         content: "{{ kubernetes_bearer_token.stdout_lines[0] }}"
-        dest: ./dashboard_token.txt
+        dest: ./dashboard_token_{{ansible_date_time.date}}.txt

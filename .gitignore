@@ -3,3 +3,5 @@ simple
 2_Kubernetes/k8s_boxes/vm_ip_addrs
 .kube
 2_Kubernetes/dashboard_token.txt
+2_Kubernetes/ansible/dashboard_token*.txt
+2_Kubernetes/ansible/config
