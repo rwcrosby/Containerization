@@ -1,0 +1,26 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: localhost:5000/mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: localhost:5000/adminer:latest
+    ports:
+      - 8080:8080
+
+  flask:
+
+    build:
+      context: .
+      dockerfile: Containerfile 
+
+    image: flaskapp
+    ports:
+      - 8081:8081

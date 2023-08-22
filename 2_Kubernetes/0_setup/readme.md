@@ -146,3 +146,6 @@ Based on: https://medium.com/@raj10x/configure-local-kubectl-to-access-remote-ku
     - dhcp on both interfaces
     - avahi providing dns
 
+- <2023-08-10 Thu 16:16> mDNS on WSL2
+    - Worked when the avahi service on WSL was disabled, used windows native zeroconf
+    - https://github.com/microsoft/WSL/issues/5944
