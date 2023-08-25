@@ -19,3 +19,12 @@
     ```shell
     ./docker2local.sh docker.io/portainer/portainer-ce:latest localhost:5000/portainer-ce:latest
     ```
+
+
+# Hyper-v setup
+
+- Getting network connectibity between a vm and wsl
+
+    https://automatingops.com/allowing-windows-subsystem-for-linux-to-communicate-with-hyper-v-vms
+
+    Bottom line is setting the forwarding enabled on both the wsl and default virtual switches
