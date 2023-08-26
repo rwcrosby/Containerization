@@ -13,19 +13,25 @@ Based on: https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/
 
 ## Building a base box
 
-- Basic install, system with two network interfaces, one hostonly
+- Basic install
 
 - Packages
 
     ```shell
-    su -c "apt-get install sudo network-manager avahi-daemon"
-    su -c "/usr/sbin/usermod -aG sudo rcrosby
+    su -c "apt update"
+    su -c "apt-get install sudo network-manager avahi-daemon tmux"
     ```
 
-- Add base user to sudoers file
+- Create user sudo file `\etc\sudoers.d\rcrosby`
+
+    ```
+    rcrosby ALL=(ALL) NOPASSWD: ALL
+    ```
+
+- Setup ssh key exchange
 
     ```shell
-    rcrosby ALL=(ALL) NOPASSWD: ALL
+    ssh-copy-id hostname.local
     ```
 
 - Log out, ssh should be available
@@ -44,6 +50,15 @@ Based on: https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/
     ```
 
     Check also /etc/hosts
+
+- Create new machine keys
+
+    ```shell
+    sudo -i
+    cd /etc/ssf
+    rm ssh_host_*
+    ssh-keygen -A
+    ```
 
 - reboot
 
