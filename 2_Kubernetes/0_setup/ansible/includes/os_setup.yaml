@@ -24,7 +24,7 @@
 
 - name: Install packages
   become: yes
-  apt:
+  package:
     update_cache: true
     pkg:
       - gpg

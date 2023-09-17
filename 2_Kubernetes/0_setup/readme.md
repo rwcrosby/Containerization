@@ -1,5 +1,18 @@
 # Next Steps
 
+- <2023-09-17 Sun 09:00> Cluster on MacOS
+
+    - Using fedora (arm cri-o is available)
+    - Swapoff doesn't appear to work in an ansible script (but does from the command line)
+    - Need iproute-tc package
+    - Disable firewall
+    - /etc/resolve.conf is pointing to a stub, kubelet needs to point to /run/systemd/resolve/resolve.conf
+    - got master working, has to change to flannel, calico didn't have a full set of arm pods
+
+    - Cloned creating k8s-2
+    - Had to enable mdns in https://bbs.archlinux.org/viewtopic.php?id=244754
+
+
 - <2023-08-07 Mon 18:42> From cri-o to containerd
     - <2023-08-10 Thu 00:40> Unable to get containerd working, sticking with cri-o
 - <2023-08-07 Mon 18:43> From calico to flannel

@@ -7,7 +7,7 @@
 
     - name: Install Python k8s interface package
       become: yes
-      apt:
+      package:
         update_cache: true
         pkg:
           - python3-kubernetes

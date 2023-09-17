@@ -2,9 +2,6 @@
 
 - name: Install kubernetes
   become: yes
-  vars:
-    REMOTE_OS: "Debian_12"
-    CRI_O_VERSION: "1.27"
   block:
 
     - name: Add kernel modules
@@ -31,37 +28,6 @@
     - name: Apply new settings
       command: sysctl --system
 
-    # https://github.com/cri-o/cri-o/blob/main/install.md#supported-versions
-
-    - name: Add keys for cri-o
-      apt_key:
-        url: "{{ item }}"
-        state: present
-      loop:
-        - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ REMOTE_OS }}/Release.key
-        - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ CRI_O_VERSION }}/{{ REMOTE_OS }}/Release.key
-
-    - name: Add deb repo for cri-o
-      apt_repository:
-        repo: deb {{ item }}
-        state: present
-      loop:
-        - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ REMOTE_OS }}/ /
-        - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ CRI_O_VERSION }}/{{ REMOTE_OS }}/ /
-
-    - name: Install cri-o
-      apt:
-        update_cache: true
-        pkg: 
-          - cri-o
-          - cri-o-runc
-
-    - name: Enable and start cri-o service
-      systemd:
-        name: crio
-        enabled: true
-        state: started
-
     - name: Disable swap for k8s
       shell: swapoff -a
       when: ansible_swaptotal_mb > 0
@@ -72,21 +38,92 @@
         state: absent 
         regexp: "\\sswap\\s"
 
-    - name: Add keys for Kubernetes
-      apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        state: present
+    # https://github.com/cri-o/cri-o/blob/main/install.md#supported-versions
 
-    - name: Add deb repo for Kubernetes
-      apt_repository:
-        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
-        state: present
+    - name: Install via apt
+      block:
 
-    - name: Install Kubernetes packages
-      apt:
-        update_cache: true
-        pkg: 
-          - kubelet
-          - kubeadm
-          - kubectl 
+        - name: Add keys for cri-o
+          apt_key:
+            url: "{{ item }}"
+            state: present
+          loop:
+            - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ REMOTE_OS }}/Release.key
+            - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ CRI_O_VERSION }}/{{ REMOTE_OS }}/Release.key
+
+        - name: Add deb repo for cri-o
+          apt_repository:
+            repo: deb {{ item }}
+            state: present
+          loop:
+            - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ REMOTE_OS }}/ /
+            - https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ CRI_O_VERSION }}/{{ REMOTE_OS }}/ /
+
+        - name: Install cri-o
+          apt:
+            update_cache: true
+            pkg: 
+              - cri-o
+              - cri-o-runc
+
+        - name: Add keys for Kubernetes
+          apt_key:
+            url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            state: present
+
+        - name: Add deb repo for Kubernetes
+          apt_repository:
+            repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+            state: present
+
+        - name: Install Kubernetes packages (apt)
+          apt:
+            update_cache: true
+            pkg: 
+              - kubelet
+              - kubeadm
+              - kubectl 
+
+      vars:
+        REMOTE_OS: "Debian_12"
+        CRI_O_VERSION: "1.27"
+      when: ansible_pkg_mgr == "apt"
+
+    - name: Install via dnf
+      block:
+
+        - name: Install kubernetes packages (dnf)
+          dnf:
+            update_cache: true
+            pkg: 
+              - iproute-tc
+              - cri-o
+              - kubernetes-master
+              - kubernetes-client
+              - kubernetes-kubeadm
+
+        - name: Update kubelet resolver
+          replace:
+            path: /etc/systemd/system/kubelet.service.d/kubeadm.conf
+            regexp: '^Environment=\"KUBELET_EXTRA_ARGS=((?!.* --resolve-conf)[^\"]+)\"'
+            replace: 'Environment="KUBELET_EXTRA_ARGS=\1 --resolv-conf=/run/systemd/resolve/resolv.conf"'
+
+        - name: Disable firewalld
+          systemd:
+            name: firewalld
+            enabled: false
+            state: stopped
+
+      when: ansible_pkg_mgr == "dnf"
+
+    - name: Enable and start cri-o
+      systemd:
+        name: crio
+        enabled: true
+        state: started
+
+    - name: Enable kubelet
+      systemd:
+        name: kubelet
+        enabled: true
 
