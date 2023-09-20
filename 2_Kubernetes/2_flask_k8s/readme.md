@@ -1,5 +1,9 @@
 # Log
 
+- <2023-09-20 Wed 09:55> IT WORKS!
+
+    - Revised nodePorts to be consistent
+
 - <2023-09-20 Wed 07:47> Flask app
 
     - Pointed to mysql node instead of db node
