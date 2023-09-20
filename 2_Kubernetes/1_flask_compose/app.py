@@ -8,7 +8,7 @@ from werkzeug.exceptions import abort
 def get_db_connection():
     try:
         conn = mysql.connect(
-            host="db",
+            host="mysql",
             user="flask",
             password="password",
             database="flask")

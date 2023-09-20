@@ -9,6 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: example
     ports:
       - 3306:3306
+    volumes:
+      - /tmp/mysql:/var/lib/mysql
 
   adminer:
     image: localhost:5000/adminer:latest

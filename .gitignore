@@ -1,6 +1,6 @@
 simple
 .vagrant
-2_Kubernetes/k8s_boxes/vm_ip_addrs
 .kube
 dashboard_token*.txt
 2_Kubernetes/0_setup/ansible/config
+2_Kubernetes/1_flask_compose/flaskapp.tar

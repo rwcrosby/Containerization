@@ -8,19 +8,23 @@ def run_file(conn, fn):
         for n, result in enumerate(cursor.execute(f.read(), multi=True)):
             print(f"{n}: {result.statement}")
 
+def connect(host="k8s-1.local", port=30831):
+    try:
+        conn = mysql.connect(
+            user="root",
+            password="example",
+            host=host,
+            port=port
+        )
+    except mysql.Error as e:
+        print(f"Error connecting to MySQL as root: {e}")
+        sys.exit(1)
+
+    return conn
 
 # Create the user
 
-try:
-    conn = mysql.connect(
-        user="root",
-        password="example",
-        host="localhost",
-        port=3306
-    )
-except mysql.Error as e:
-    print(f"Error connecting to MySQL as root: {e}")
-    sys.exit(1)
+conn = connect()
 
 print(f"Connected to {conn.server_host} as {conn.user}")
 
@@ -30,14 +34,7 @@ conn.close()
 
 # Create the table
 
-try:
-    conn = mysql.connect(
-        user="flask",
-        password="password",
-        host="localhost")
-except mysql.Error as e:
-    print(f"Error connecting to MySQL as flask: {e}")
-    sys.exit(1)
+conn = connect()
 
 print(f"Connected to {conn.server_host} as {conn.user}")
 
