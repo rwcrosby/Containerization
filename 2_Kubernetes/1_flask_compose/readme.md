@@ -1,5 +1,11 @@
 # Testing with podman
 
+
+- <2023-09-25 Mon 14:38>
+
+    - Moved init_db and associated scripts to the flask pod to run via exec
+    - Running on the RHEL MV
+
 - <2023-08-18 Fri 08:56>
 
     - Had to manually install an old version of containernetworking-plugins

@@ -23,6 +23,6 @@ services:
       context: .
       dockerfile: Containerfile 
 
-    image: flaskapp
+    image: flaskapp:csis656-fall-2023
     ports:
       - 8081:8081

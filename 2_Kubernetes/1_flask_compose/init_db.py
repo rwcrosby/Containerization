@@ -8,8 +8,9 @@ def run_file(conn, fn):
         for n, result in enumerate(cursor.execute(f.read(), multi=True)):
             print(f"{n}: {result.statement}")
 
-def connect(host="k8s-1.local", port=30831):
-    try:
+# def connect(host="k8s-1.local", port=30831):
+def connect(host="db", port=3306):
+    try:    
         conn = mysql.connect(
             user="root",
             password="example",

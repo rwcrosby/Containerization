@@ -2,24 +2,51 @@
 
 - Ports 5000 (registry) and 9443 (portainer) need to be available
 
+## Local Registry
+
 - Make the local registry insecure
 
     https://podman-desktop.io/docs/getting-started/insecure-registry
 
     `\etc\containers\registries.conf.d\localhost.conf`
-
     ```
+
     [[registry]]
     location = "localhost:5000"
     insecure = true
     ```
 
-- Copy portainer to local registry
+    For MacOS this needs to be done in the podman machine cm
+
+- Pull and save registry image
 
     ```shell
-    ./docker2local.sh docker.io/portainer/portainer-ce:latest localhost:5000/portainer-ce:latest
+    podman pull docker.io/registry:latest
+    podman save docker.io/library/registry:latest -o registry_arm_latest.tar
     ```
 
+- Copy registry to local image
+
+    ```
+    podman load -i registry_arm_latest.tar
+    ```
+
+## Portainer
+
+    Note: On MacOS need to init the machine with --rootful to be able to connect to the socket!
+
+- Pull and save portainer image
+
+    ```shell
+    podman pull docker.io/portainer/portainer-ce:latest
+    podman save docker.io/portainer/portainer-ce:latest -o portainer_arm_latest.tar
+    ```
+
+    ```
+    podman load -i portainer_arm_latest.tar
+    ```
+
+- Copy portainer to local image
 
 # Hyper-v setup
 

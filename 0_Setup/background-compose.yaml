@@ -2,7 +2,7 @@ services:
 
   registry:
 
-    image: docker.io/registry:latest
+    image: docker.io/library/registry:latest
     container_name: registry
     restart: unless-stopped
     volumes:
@@ -14,11 +14,13 @@ services:
 
     depends_on:
       - registry
-    image: localhost:5000/portainer-ce:latest
+    image: docker.io/portainer/portainer-ce:latest
     container_name: portainer
     privileged: true
     restart: unless-stopped
     volumes:
+      # - /run/podman/podman.sock:/var/run/docker.sock:Z
+      # - /var/run/docker.sock:/var/run/docker.sock:Z
       - ${XDG_RUNTIME_DIR}/podman/podman.sock:/var/run/docker.sock:Z
       - portainer_data:/data
     ports:
