@@ -1,5 +1,31 @@
 # Log
 
+- <2023-09-29 Fri 10:37>
+
+    - DB initializer run from lily-arm with PyMysql virtualenv
+        ```
+        python init_db.py --password=example user.sql schema.sql data.sql
+        ```
+
+    - Got updated app working in pod
+        - `imagePullPolicy: Always` required
+
+- <2023-09-22 Fri 10:35>
+
+    - TODO: Setup container to initialize database (k8s job)
+        - File names passed as parameters
+        - File contents set as config items
+
+    - TODO: Create secrets for mysql root and user password
+        - Pass via environment variables
+
+    - TODO: Investigate exposing flask app on a more typical port (8080)
+
+- <2023-09-21 Thu 07:56>
+
+    - Update dashboard timeout
+        https://stackoverflow.com/questions/58012223/how-can-i-make-the-automatic-timed-logout-longer#58126649
+
 - <2023-09-20 Wed 09:55> IT WORKS!
 
     - Revised nodePorts to be consistent

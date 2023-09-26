@@ -11,8 +11,11 @@ metadata:
   name: flask-pod
 spec:
   containers:
-  - image: lily-arm.local:5000/flaskapp:latest
+  - image: lily-arm.local:5000/flaskapp:k8s
     name: flask
+    command: ["python"]
+    args: ["app.py", "--password=password"]
+    imagePullPolicy: Always
     ports:
     - containerPort: 8081
       hostPort: 8081
