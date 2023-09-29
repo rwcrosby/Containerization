@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-09-19T13:07:41Z"
+  labels:
+    app: mysql-config
+  name: flaskdb-config-pod
+spec:
+  containers:
+  - image: docker.io/mysql:latest
+    name: flaskdb-config
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: example
+    volumeMounts:
+    - mountPath: /var/lib/mysql
+      name: mysql-config-vol
+    ports:
+    - containerPort: 3306
+      name: mysql
+  volumes:
+  - name: mysql-config-vol
+    persistentVolumeClaim:
+      claimName: mysql-config-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-config
+spec:
+  ports:
+  - port: 3306
+    nodePort: 30103
+  type: NodePort
+  selector:
+    app: mysql-config
