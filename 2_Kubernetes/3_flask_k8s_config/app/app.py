@@ -9,7 +9,7 @@ def get_args():
 
     parser = argparse.ArgumentParser("Simple flask app")
 
-    parser.add_argument("--webport", default=8081, type=int, help="Server port number")
+    parser.add_argument("--webport", default=8080, type=int, help="Server port number")
     parser.add_argument("--dbhost", default="mysql", type=str, help="Database host")
     parser.add_argument("--dbport", default=3306, type=int, help="Database port number")
     parser.add_argument("--dbuser", default="flask", type=str, help="Database userid")
@@ -30,10 +30,10 @@ def get_db_connection():
             password=args.password,
             database=args.database)
     except mysql.Error as e:
-        print(f"Error connecting to {args.dbhost}:{args.dbport} as {args.dbuser}: {e}")
+        app.logger.error(f"Error connecting to {args.dbhost}:{args.dbport} as {args.dbuser}: {e}")
         abort(404)
 
-    print(f"Connected to {conn.server_host}:{conn._port} as {conn.user}")
+    app.logger.info(f"Connected to {conn.server_host}:{conn._port} as {conn.user}")
 
     return conn
 

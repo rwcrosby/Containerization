@@ -1,7 +1,5 @@
-# Save the output of this file and use kubectl create -f to import
-# it into Kubernetes.
-#
-# Created with podman-4.4.1
+---
+
 apiVersion: v1
 kind: Pod
 metadata:
@@ -21,6 +19,7 @@ spec:
       hostPort: 8081
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
