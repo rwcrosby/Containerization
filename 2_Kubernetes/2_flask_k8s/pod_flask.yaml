@@ -9,8 +9,8 @@ metadata:
   name: flask-pod
 spec:
   containers:
-  - image: lily-arm.local:5000/flaskapp:k8s
-    name: flask
+  - image: lily.local:5000/flaskapp:k8s-2
+    name: flask-container
     command: ["python"]
     args: ["app.py", "--password=password"]
     imagePullPolicy: Always

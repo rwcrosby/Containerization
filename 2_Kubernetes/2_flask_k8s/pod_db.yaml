@@ -13,11 +13,11 @@ metadata:
   creationTimestamp: "2023-09-19T13:07:41Z"
   labels:
     app: mysql
-  name: flaskdb-pod
+  name: db-pod
 spec:
   containers:
   - image: docker.io/mysql:latest
-    name: flask-db
+    name: db-container
     env:
     - name: MYSQL_ROOT_PASSWORD
       value: example

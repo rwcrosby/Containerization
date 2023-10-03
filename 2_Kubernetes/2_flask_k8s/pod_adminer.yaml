@@ -9,7 +9,7 @@ metadata:
   creationTimestamp: "2023-09-19T13:07:56Z"
   labels:
     app: adminer
-  name: flaskadminer-pod
+  name: adminer-pod
 spec:
   containers:
   - args:
@@ -19,7 +19,7 @@ spec:
     - -t
     - /var/www/html
     image: docker.io/adminer:latest
-    name: flask-adminer
+    name: adminer-container
     ports:
     - containerPort: 8080
       hostPort: 8080
