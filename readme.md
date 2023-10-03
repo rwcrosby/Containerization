@@ -1,8 +1,10 @@
-# Camgian Tech Talks
+# Tech Talks
+
+    Note: assumes that the registry and portainer containers from SharedEnvironment are running
 
 ## Containers
 
-This talk is a follow up to the tech talk
+Containerization samples
 
 ### 2_cpp_minimized
 
@@ -23,14 +25,8 @@ Need to specify `:z` on the mounted directory to allow write access.
 
 ### 2 - Simple three pod environment
 
-### 3 - Add Persistence
+### 3 - Cluster using configurations and secrets
 
-### 4 - Add configurations
-
-### 5 - Add secrets
-
-### 6 - Add database initialization job
-
-### References
+# References
 
 https://testdriven.io/blog/running-flask-on-kubernetes/
