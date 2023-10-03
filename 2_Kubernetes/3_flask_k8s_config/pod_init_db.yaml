@@ -1,0 +1,31 @@
+# kubectl create secret generic dbauth --from-literal=password=password
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db-job
+spec:
+  template:
+    spec:
+      containers:
+      - image: lily-arm.local:5000/init-db:k8s-config
+        name: init-db
+        command: ["python"]
+        args: 
+          - "init_db.py"
+          - "--password=$(PASSWORD)"
+          - "--dbhost=mysql-config"
+          - "--dbport=3306"
+          - "user.sql"
+          - "schema.sql"
+          - "data.sql"
+        env:
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: dbauth
+                key: password  
+        imagePullPolicy: Always
+      restartPolicy: Never

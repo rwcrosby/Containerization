@@ -19,9 +19,12 @@ services:
     privileged: true
     restart: unless-stopped
     volumes:
-      # - /run/podman/podman.sock:/var/run/docker.sock:Z
-      # - /var/run/docker.sock:/var/run/docker.sock:Z
-      - ${XDG_RUNTIME_DIR}/podman/podman.sock:/var/run/docker.sock:Z
+      # - ${XDG_RUNTIME_DIR}/podman/podman.sock:/var/run/docker.sock:Z
+      # - /run/user/501/podman/podman.sock:/var/run/docker.sock:Z
+
+      # Works on MacOS with --rootful on the init
+      - /run/podman/podman.sock:/var/run/docker.sock:Z
+
       - portainer_data:/data
     ports:
       - 9443:9443

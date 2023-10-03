@@ -33,7 +33,10 @@
 
 ## Portainer
 
-    Note: On MacOS need to init the machine with --rootful to be able to connect to the socket!
+Note: On MacOS need to init the machine with --rootful to be able to connect to the socket!
+
+    /run/podman/podman.sock:/var/run/docker.sock:Z
+
 
 - Pull and save portainer image
 

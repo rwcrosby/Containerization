@@ -1,5 +1,8 @@
 # Testing with podman
 
+- <2023-10-03 Tue 09:15> Working on MacOS
+
+    - After figuring out how to get portainer running
 
 - <2023-09-25 Mon 14:38>
 

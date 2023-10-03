@@ -1,4 +1,5 @@
-# Use root/example as user/password credentials
+---
+
 version: '3.1'
 
 services:
@@ -7,8 +8,12 @@ services:
 
     build:
       context: app
-      dockerfile: ../Containerfile 
 
-    image: flaskapp:k8s-config
-    ports:
-      - 8082:8081
+    image: localhost:5000/flaskapp:k8s-config
+
+  init:
+
+    build:
+      context: init_db
+
+    image: localhost:5000/init-db:k8s-config

@@ -1,0 +1,11 @@
+FROM localhost:5000/python:3.11-slim
+
+RUN pip install -U pip \
+                   mysql-connector-python; \
+    pip cache purge
+
+WORKDIR /opt
+COPY init_db.py .
+COPY *.sql .
+
+CMD ["tail", "-f", "/dev/null"]
