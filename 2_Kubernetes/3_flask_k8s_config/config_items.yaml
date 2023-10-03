@@ -19,7 +19,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: flask-config-secrets
+  name: flask-secrets
 type: Opaque
 stringData:
   root-password: example
