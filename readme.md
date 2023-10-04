@@ -149,6 +149,8 @@ Need to specify `:z` on the mounted directory to allow write access.
     - Flask app working
         - Cleaned up port assignment
 
+- <2023-10-04 Wed 08:13> Init working
+
 # References
 
 https://testdriven.io/blog/running-flask-on-kubernetes/
