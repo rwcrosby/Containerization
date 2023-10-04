@@ -7,7 +7,7 @@ kind: ConfigMap
 metadata:
   name: flask-config
 data:
-  dbhost: "mysql-config"
+  dbhost: "mysql"
   dbport: "3306"
   dbuser: "flask"
   database: "flask"

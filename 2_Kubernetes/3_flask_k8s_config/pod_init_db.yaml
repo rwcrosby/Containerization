@@ -5,18 +5,18 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: init-db-job
+  name: init-db-job-3
 spec:
   template:
     spec:
       containers:
-      - image: lily-arm.local:5000/init-db:k8s-config
+      - image: lily.local:5000/init-db:k8s-3
         name: init-db
         command: ["python"]
         args: 
           - "init_db.py"
           - "--password=$(PASSWORD)"
-          - "--dbhost=mysql-config"
+          - "--dbhost=mysql"
           - "--dbport=3306"
           - "user.sql"
           - "schema.sql"
@@ -25,7 +25,7 @@ spec:
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
-                name: dbauth
-                key: password  
+                name: flask-secrets
+                key: root-password  
         imagePullPolicy: Always
       restartPolicy: Never

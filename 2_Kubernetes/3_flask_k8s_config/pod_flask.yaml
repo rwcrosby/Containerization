@@ -15,13 +15,14 @@ spec:
     args: 
       - "app.py"
       - "--password=$(PASSWORD)"
-      - "--webport=$(WEBPORT)"
+      - "--webport=8080"
       - "--dbhost=$(DBHOST)"
     env:
       - name: DBHOST
-        value: "mysql-config"
-      - name: WEBPORT
-        value: "8080"
+        valueFrom:
+          configMapKeyRef:
+            name: flask-config
+            key: dbhost  
       - name: PASSWORD
         valueFrom:
           secretKeyRef:
