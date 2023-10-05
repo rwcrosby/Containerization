@@ -126,7 +126,7 @@ Need to specify `:z` on the mounted directory to allow write access.
 
     - All working
 
-### 3 - Cluster using configurations and secrets
+### 3 - Cluster using configurations, secrets, and init job
 
 - <2023-09-30 Sat 15:52> Broke the db init out into it's own pod as a job
 
@@ -150,6 +150,79 @@ Need to specify `:z` on the mounted directory to allow write access.
         - Cleaned up port assignment
 
 - <2023-10-04 Wed 08:13> Init working
+
+### 4 - CoreOS
+
+- <2023-10-05 Thu 11:33> Building initial image
+
+    - Created base.bu file and converted to ignition format
+
+        - MacOS lily's ssh key
+        - Hostname: coreos-base
+        - systemd unit to install avahi and python
+
+        ```
+        podman run -i --rm quay.io/coreos/butane:release --pretty --strict < coreos-base.bu > coreos-base.ign
+        ```
+
+    - Downloaded CoreOS iso and built an iso with the ignition file built it
+
+        https://coreos.github.io/coreos-installer/cmd/iso/
+
+        ```
+        podman run --rm -v $(PWD):/data -w /data quay.io/coreos/coreos-installer:release download -s stable -p metal -f iso
+        
+        podman run --rm -v $(PWD):/data -w /data quay.io/coreos/coreos-installer:release iso customize -o coreos-base.iso --dest-ignition=coreos-base.ign --dest-device=/dev/nvme0n1 fedora-coreos-38.20230918.3.0-live.aarch64.iso
+        ```
+
+    - Setup VM, booted from iso
+
+        - Need to disable cd rom after install
+        - Change hostname after first boot
+            `sudo hostnamectl hostname blahblah`
+        - Need to reboot installed system to get avahi running 
+
+    - Enable mdns on all nodes
+
+        ```
+        sudo nano /etc/systemd/resolved.conf
+
+        MulticastDNS=yes
+
+        ```
+
+- <2023-10-05 Thu 14:11> K3S Server Installation
+
+    - Installed https://github.com/k3s-io/k3s-selinux/releases/download/v1.4.stable.1/k3s-selinux-1.4-1.el8.noarch.rpm
+
+    ```
+    sudo -i
+    export K3S_KUBECONFIG_MODE="644"
+    export INSTALL_K3S_EXEC=" --disable servicelb --disable traefik"
+
+    curl -sfL https://get.k3s.io | sh -
+    ```
+
+    - Get node token
+
+    ```
+    K10411ea3ddb97d7ce0e85e218ecad7b449edc926d9478510a85fd27c27214f1611::server:7cdeb9743d07d5c798559f00280de5dc
+    ```
+
+- <2023-10-05 Thu 14:31> K3S Worker Installation
+
+    ```
+    export K3S_KUBECONFIG_MODE="644"
+    export K3S_URL="https://k3s-1.local:6443"
+    export K3S_TOKEN="K10411ea3ddb97d7ce0e85e218ecad7b449edc926d9478510a85fd27c27214f1611::server:7cdeb9743d07d5c798559f00280de5dc"
+
+    curl -sfL https://get.k3s.io | sh -
+    ```
+
+- <2023-10-05 Thu 15:39> Remote access
+
+    - Downloaded `/etc/rancher/k3s/k3s.yaml`
+    - Pointed KUBECONFIG to downloaded file in `.envrc`
 
 # References
 
