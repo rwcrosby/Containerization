@@ -8,3 +8,4 @@ dashboard_token*.txt
 .DS_Store
 *.iso
 *.iso.sig
+cluster_config.yaml

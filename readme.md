@@ -1,10 +1,6 @@
-# Containerization
+# Containerization Technologies
 
     Note: assumes that the registry and portainer containers from SharedEnvironment are running
-
-## 0_setup
-
-Provision the VMs to be used for the cluster. Assumes VMs already exist and networking is in place.
 
 ## 1_Containers
 
@@ -22,6 +18,8 @@ Need to install
 Need to specify `:z` on the mounted directory to allow write access.
 
 ## 2_Kubernetes
+
+### 0 - Setup k8s on Fedora
 
 ### 1 - A simple three container environment using compose
 
@@ -151,7 +149,7 @@ Need to specify `:z` on the mounted directory to allow write access.
 
 - <2023-10-04 Wed 08:13> Init working
 
-### 4 - CoreOS
+### 4 - Setup k3s on CoreOS
 
 - <2023-10-05 Thu 11:33> Building initial image
 
@@ -223,6 +221,37 @@ Need to specify `:z` on the mounted directory to allow write access.
 
     - Downloaded `/etc/rancher/k3s/k3s.yaml`
     - Pointed KUBECONFIG to downloaded file in `.envrc`
+
+- <2023-10-06 Fri 16:17> Setup private registry
+
+    - See `ansible\includes\k3s_setup.yaml`
+
+        https://docs.k3s.io/installation/private-registry
+        https://stackoverflow.com/questions/66223725/k3s-image-pull-from-private-registries
+
+- <2023-10-06 Fri 16:21> Get mDNS resolution working on RHEL
+
+    https://rhel.pkgs.org/9/epel-x86_64/nss-mdns-0.15.1-3.1.el9.x86_64.rpm.html
+
+- <2023-10-06 Fri 16:17> Cordon/Drain/Uncordon
+
+    ```
+    kubectl cordon <node>
+    kubectl drain <node>
+    kubectl uncordon <node>
+    ```
+
+- <2023-10-06 Fri 07:38> Cleaned up cluster configuration handling
+
+    - Keep cluster config in local directory but link to `~/.kube/config` as needed
+
+- <2023-10-06 Fri 08:10> Setup notes
+
+    - Need to install pip
+    - Need to link kube config to `~core\.kube\config`
+    - Dashboard working
+
+- <2023-10-06 Fri 16:36> Flask-2 and Flask-3 working
 
 # References
 

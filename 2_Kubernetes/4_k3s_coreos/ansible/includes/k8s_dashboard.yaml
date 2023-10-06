@@ -1,0 +1,40 @@
+---
+
+- name: Setup kubernetes dashboard on the control plane
+  block:
+
+    - name: Install Python interface package
+      pip:
+        name:
+          - kubernetes
+
+    - name: Download dashboard manifest to the cluster.
+      get_url:
+        url: https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+        dest: ~/dashboard.yaml
+        mode: '0664'
+
+    - name: Apply dashboard manifest to the cluster.
+      kubernetes.core.k8s:
+        src: ~/dashboard.yaml
+        state: present
+
+    - name: Create admin user
+      kubernetes.core.k8s:
+        definition: "{{ lookup('file', '../k8s_files/admin-user_ServiceAccount.yaml') | from_yaml }}"
+        state: present
+
+    - name: Bind the admin user to the admin role
+      kubernetes.core.k8s:
+        definition: "{{ lookup('file', '../k8s_files/admin-user_ClusterRoleBinding.yaml') | from_yaml }}"
+        state: present
+        
+    - name: Get a bearer token
+      shell: "kubectl -n kubernetes-dashboard create token admin-user --duration=720h"
+      register: kubernetes_bearer_token
+
+    - name: Copy the token to the local filesystem
+      delegate_to: localhost
+      copy:
+        content: "{{ kubernetes_bearer_token.stdout_lines[0] }}"
+        dest: ./dashboard_token_{{ansible_date_time.date}}.txt

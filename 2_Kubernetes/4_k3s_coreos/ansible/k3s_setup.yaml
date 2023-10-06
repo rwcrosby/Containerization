@@ -1,0 +1,14 @@
+---
+
+- name: Setup k8s master node
+  hosts: master
+  tags: master
+  tasks:
+    - include_tasks: includes/k3s_setup.yaml
+    - include_tasks: includes/k8s_dashboard.yaml
+
+- name: Setup k8s master node
+  hosts: workers
+  tags: master
+  tasks:
+    - include_tasks: includes/k3s_setup.yaml
