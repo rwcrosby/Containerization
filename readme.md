@@ -253,6 +253,11 @@ Need to specify `:z` on the mounted directory to allow write access.
 
 - <2023-10-06 Fri 16:36> Flask-2 and Flask-3 working
 
+- <2023-10-19 Thu 08:53> Updated default timeout in dashboard pod
+
+    https://stackoverflow.com/questions/58012223/how-can-i-make-the-automatic-timed-logout-longer#58126649
+    https://blinkeye.github.io/post/public/2019-05-30-kubernetes-dashboard/
+
 # References
 
 https://testdriven.io/blog/running-flask-on-kubernetes/
