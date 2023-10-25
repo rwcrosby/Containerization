@@ -5,13 +5,14 @@ passwd:
     - name: core
       ssh_authorized_keys:
         - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAFZBDWCb/QNXOSHkhOSc9JdK9J5HhAotpYQL+j0qCyBVF19mJAbhMHVkX8I63nzGwncOVQCyEtX+NOsLxzn8qwcDAGZqq3AfHs+bubAlaFwbAB4kCwYtM176i2tbmAenocyHsC7I2dde3k8GsvytvvRTgIyyBkSljvrGBq3Oqim6LV6OQ== rcrosby@Anthony
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF6C9WrxS7xRxbZNTz7sHkD1LdgQwg3RV4T0dH1YACiHrXYU5MGAhRgbof1ZZXEHFWsurG0oFqDDPcG47lDp8TM= 
 storage:
   files:
     - path: /etc/hostname
       mode: 0644
       contents:
         inline: |
-          coreos-base
+          k3s-2
 systemd:
   units:
     - name: rpm-ostree-install.service

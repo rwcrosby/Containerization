@@ -3,12 +3,12 @@
 - name: Add my repostory - crictl 
   become: yes
   lineinfile: 
-    name: /etc/containers/registries.conf.d/010-lily.conf
+    name: /etc/containers/registries.conf.d/010-c2-node.conf
     create: yes
     state: absent
     line: |
       [[registry]]
-      location="lily.local:5000"
+      location="{{ c2_node }}:5000"
       insecure=true
 
 - name: Add my repostory - k3s
@@ -19,9 +19,20 @@
     state: absent
     line: |
       mirrors:
-        "lily.local:5000":
+        "{{ c2_node }}:5000":
           endpoint:
-            - "http://lily.local:5000"
+            - "http://{{ c2_node }}:5000"
+
+- name: Check for config existance
+  stat: path=/etc/rancher/k3s/k3s.yaml
+  register: file
+
+- name: Copy k32s config to local directory
+  copy:
+    remote_src: yes
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: ~/.kube/config
+  when: file.stat.exists
 
 - name: Populate service facts
   service_facts:

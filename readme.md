@@ -149,7 +149,7 @@ Need to specify `:z` on the mounted directory to allow write access.
 
 - <2023-10-04 Wed 08:13> Init working
 
-### 4 - Setup k3s on CoreOS
+### 4 - Setup k3s on CoreOS with MacOS
 
 - <2023-10-05 Thu 11:33> Building initial image
 
@@ -191,20 +191,30 @@ Need to specify `:z` on the mounted directory to allow write access.
 
 - <2023-10-05 Thu 14:11> K3S Server Installation
 
+    https://docs.k3s.io/quick-start
+
+
     - Installed https://github.com/k3s-io/k3s-selinux/releases/download/v1.4.stable.1/k3s-selinux-1.4-1.el8.noarch.rpm
 
-    ```
-    sudo -i
-    export K3S_KUBECONFIG_MODE="644"
-    export INSTALL_K3S_EXEC=" --disable servicelb --disable traefik"
+       ```
+        sudo rpm-ostree install https://github.com/k3s-io/k3s-selinux/releases/download/v1.4.stable.1/k3s-selinux-1.4-1.el8.noarch.rpm
+        ```
 
-    curl -sfL https://get.k3s.io | sh -
-    ```
+    - Installed the server
+
+        ```
+        sudo -i
+        export K3S_KUBECONFIG_MODE="644"
+        export INSTALL_K3S_EXEC=" --disable servicelb --disable traefik"
+
+        curl -sfL https://get.k3s.io | sh -
+        ```
 
     - Get node token
 
     ```
     K10411ea3ddb97d7ce0e85e218ecad7b449edc926d9478510a85fd27c27214f1611::server:7cdeb9743d07d5c798559f00280de5dc
+    K10637682fc64269be0020417969c52e3d12dee137b0becc5ba5c6793957c5742bb::server:2a47f3df3c0e3cbfb5a91fef832d3262
     ```
 
 - <2023-10-05 Thu 14:31> K3S Worker Installation
@@ -212,7 +222,7 @@ Need to specify `:z` on the mounted directory to allow write access.
     ```
     export K3S_KUBECONFIG_MODE="644"
     export K3S_URL="https://k3s-1.local:6443"
-    export K3S_TOKEN="K10411ea3ddb97d7ce0e85e218ecad7b449edc926d9478510a85fd27c27214f1611::server:7cdeb9743d07d5c798559f00280de5dc"
+    export K3S_TOKEN="K10637682fc64269be0020417969c52e3d12dee137b0becc5ba5c6793957c5742bb::server:2a47f3df3c0e3cbfb5a91fef832d3262"
 
     curl -sfL https://get.k3s.io | sh -
     ```
@@ -257,6 +267,19 @@ Need to specify `:z` on the mounted directory to allow write access.
 
     https://stackoverflow.com/questions/58012223/how-can-i-make-the-automatic-timed-logout-longer#58126649
     https://blinkeye.github.io/post/public/2019-05-30-kubernetes-dashboard/
+
+### 4 - Setup k3s on CoreOS with Hyper-V
+
+- <2023-10-20 Fri 08:26> Forwarding packets across virtual switches
+
+    https://learn.microsoft.com/en-us/powershell/module/nettcpip/set-netipinterface?view=windowsserver2022-ps
+
+- <2023-10-20 Fri 08:24> Building the VM's
+
+    - https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-hyperv/
+
+    - Updated Butane file with wsl2 Fedora's public ssh key
+
 
 # References
 
