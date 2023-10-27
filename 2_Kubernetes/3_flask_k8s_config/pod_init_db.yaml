@@ -10,7 +10,7 @@ spec:
   template:
     spec:
       containers:
-      - image: lily.local:5000/init-db:k8s-3
+      - image: localhost.local/init-db:k8s-3
         name: init-db
         command: ["python"]
         args: 

@@ -9,7 +9,7 @@ metadata:
   name: flask-pod
 spec:
   containers:
-  - image: lily.local:5000/flaskapp:k8s-3
+  - image: localhost.local/flaskapp:k8s-3
     name: flask-container
     command: ["python"]
     args: 

@@ -5,7 +5,7 @@
   lineinfile: 
     name: /etc/containers/registries.conf.d/010-c2-node.conf
     create: yes
-    state: absent
+    state: present
     line: |
       [[registry]]
       location="{{ c2_node }}:5000"
@@ -16,10 +16,10 @@
   lineinfile: 
     name: /etc/rancher/k3s/registries.yaml
     create: yes
-    state: absent
+    state: present
     line: |
       mirrors:
-        "{{ c2_node }}:5000":
+        "localhost.local":
           endpoint:
             - "http://{{ c2_node }}:5000"
 
