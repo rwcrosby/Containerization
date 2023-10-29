@@ -9,7 +9,7 @@ def run_file(conn, fn):
             print(f"{n}: {result.statement}")
 
 # def connect(host="k8s-1.local", port=30831): 
-def connect(host="localhost", port=3306):
+def connect(host="db", port=3306):
     try:    
         conn = mysql.connect(
             user="root",
