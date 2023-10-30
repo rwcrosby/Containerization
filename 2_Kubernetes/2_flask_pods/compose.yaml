@@ -1,5 +1,5 @@
 # Use root/example as user/password credentials
-version: '3.1'
+version: '3'
 
 services:
 
@@ -7,8 +7,5 @@ services:
 
     build:
       context: app
-      dockerfile: ../Containerfile 
 
-    image: localhost:5000/flaskapp:k8s-2
-    ports:
-      - 8082:8081
+    image: localhost:5000/flaskapp/app:v2

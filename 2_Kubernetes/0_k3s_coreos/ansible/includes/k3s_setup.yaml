@@ -19,7 +19,7 @@
     state: present
     line: |
       mirrors:
-        "localhost.local":
+        "myreg.local":
           endpoint:
             - "http://{{ c2_node }}:5000"
 

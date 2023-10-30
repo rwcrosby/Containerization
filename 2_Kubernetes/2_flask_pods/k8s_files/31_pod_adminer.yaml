@@ -15,7 +15,7 @@ spec:
     - '[::]:8080'
     - -t
     - /var/www/html
-    image: docker.io/adminer:latest
+    image: myreg.local/utils/adminer:latest
     name: adminer-container
     ports:
     - containerPort: 8080

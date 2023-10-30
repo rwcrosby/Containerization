@@ -8,7 +8,7 @@ metadata:
   name: flask-pod
 spec:
   containers:
-  - image: lily.local:5000/flaskapp:k8s-2
+  - image: myreg.local/flaskapp/app:v2
     name: flask-container
     command: ["python"]
     args: ["app.py", "--password=password"]
