@@ -1,4 +1,4 @@
-FROM localhost:5000/python:3.11-slim
+FROM myreg.local/base/python:slim
 
 RUN pip install -U pip \
                    mysql-connector-python; \

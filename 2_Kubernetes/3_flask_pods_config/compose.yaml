@@ -9,11 +9,11 @@ services:
     build:
       context: app
 
-    image: localhost:5000/flaskapp:k8s-3
+    image: localhost:5000/flaskapp/app:v3
 
   init:
 
     build:
       context: init_db
 
-    image: localhost:5000/init-db:k8s-3
+    image: localhost:5000/flaskapp/init:v3

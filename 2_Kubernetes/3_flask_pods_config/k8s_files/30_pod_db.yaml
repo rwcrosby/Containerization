@@ -8,7 +8,7 @@ metadata:
   name: db-pod
 spec:
   containers:
-  - image: docker.io/mysql:latest
+  - image: myreg.local/utils/mysql:latest
     name: db-container
     env:
     - name: MYSQL_ROOT_PASSWORD

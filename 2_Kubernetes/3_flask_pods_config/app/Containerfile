@@ -1,10 +1,11 @@
-FROM localhost:5000/python:3.11-slim
+FROM myreg.local/base/python:slim
 
 RUN pip install -U pip \
                    flask \
                    mysql-connector-python; \
     pip cache purge
 
+WORKDIR /opt
 COPY app.py .
 COPY templates/* templates/
 

@@ -7,10 +7,10 @@ kind: Job
 metadata:
   name: init-db-job-3
 spec:
-  template:
+  template: 
     spec:
       containers:
-      - image: localhost.local/init-db:k8s-3
+      - image: myreg.local/flaskapp/init:v3
         name: init-db
         command: ["python"]
         args: 
