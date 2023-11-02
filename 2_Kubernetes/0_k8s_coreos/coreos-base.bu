@@ -5,14 +5,15 @@ passwd:
     - name: core
       ssh_authorized_keys:
         - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAFZBDWCb/QNXOSHkhOSc9JdK9J5HhAotpYQL+j0qCyBVF19mJAbhMHVkX8I63nzGwncOVQCyEtX+NOsLxzn8qwcDAGZqq3AfHs+bubAlaFwbAB4kCwYtM176i2tbmAenocyHsC7I2dde3k8GsvytvvRTgIyyBkSljvrGBq3Oqim6LV6OQ== rcrosby@Anthony
-        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF6C9WrxS7xRxbZNTz7sHkD1LdgQwg3RV4T0dH1YACiHrXYU5MGAhRgbof1ZZXEHFWsurG0oFqDDPcG47lDp8TM= 
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF6C9WrxS7xRxbZNTz7sHkD1LdgQwg3RV4T0dH1YACiHrXYU5MGAhRgbof1ZZXEHFWsurG0oFqDDPcG47lDp8TM=
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDM9C7TSJr0pvtluDhMZ1uivjYYuwqkeWgvSlFpYWtkHA0KQuPBKY94IPjmd3qHIwskbNTyGeCTlZDrCXK0I2J4= rcrosby@lily-arm 
 storage:
   files:
     - path: /etc/hostname
       mode: 0644
       contents:
         inline: |
-          k3s-2
+          coreos-base
 systemd:
   units:
     - name: rpm-ostree-install.service
@@ -30,7 +31,7 @@ systemd:
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        ExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive avahi python htop mc tmux
+        ExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive avahi python htop mc tmux duf bat
         ExecStart=/bin/touch /var/lib/%N.stamp
 
         [Install]
