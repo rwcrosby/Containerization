@@ -1,0 +1,57 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels:
+    app: flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+      name: flask-pod
+    spec:
+      containers:
+      - image: myreg.local/flaskapp/app:v3
+        name: flask-container
+        command: ["python"]
+        args: 
+          - "app.py"
+          - "--password=$(PASSWORD)"
+          - "--webport=8080"
+          - "--dbhost=$(DBHOST)"
+        env:
+          - name: DBHOST
+            valueFrom:
+              configMapKeyRef:
+                name: flask-config
+                key: dbhost  
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: flask-secrets
+                key: user-password  
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  ports:
+  - port: 8085
+    targetPort: 8080
+    nodePort: 30101
+  type: NodePort
+  selector:
+    app: flask

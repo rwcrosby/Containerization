@@ -1,0 +1,1 @@
+Display something on the start screen

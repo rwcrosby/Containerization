@@ -1,0 +1,26 @@
+---
+
+# General configuration
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+data:
+  dbhost: "mysql"
+  dbport: "3306"
+  dbuser: "flask"
+  database: "flask"
+
+---
+
+# Secrets
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flask-secrets
+type: Opaque
+stringData:
+  root-password: example
+  user-password: password

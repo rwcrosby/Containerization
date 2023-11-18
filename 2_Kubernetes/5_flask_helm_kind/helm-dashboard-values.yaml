@@ -1,0 +1,10 @@
+extraArgs:
+  - --token-ttl=0
+  - --enable-skip-login
+  - --enable-insecure-login
+
+metricsScraper:
+  enabled: true
+
+metrics-server:
+  enabled: true
