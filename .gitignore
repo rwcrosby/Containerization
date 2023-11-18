@@ -1,11 +1,8 @@
 simple
 .vagrant
 .kube
-dashboard_token*.txt
-2_Kubernetes/0_setup/ansible/config
 2_Kubernetes/1_flask_compose/flaskapp.tar
 *.tar
-.DS_Store
 *.iso
 *.iso.sig
-cluster_config.yaml
+.DS_Store

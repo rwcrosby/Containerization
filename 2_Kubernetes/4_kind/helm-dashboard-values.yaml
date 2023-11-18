@@ -1,0 +1,4 @@
+extraArgs:
+  - --token-ttl=0
+  - --enable-skip-login
+  - --enable-insecure-login
