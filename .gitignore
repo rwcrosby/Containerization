@@ -1,8 +1,8 @@
 simple
 .vagrant
 .kube
-2_Kubernetes/1_flask_compose/flaskapp.tar
+.DS_Store
 *.tar
 *.iso
 *.iso.sig
-.DS_Store
+*.qcow2

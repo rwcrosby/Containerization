@@ -4,8 +4,9 @@ passwd:
   users:
     - name: core
       ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIACWUW7jH3F7NPDEGewAIlCWRPJb+5FH6IWnHTxd8DlM rcrosby@rwc-xps
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNLo7/IMuH4r38IaECqrBV/qiLUrJ6shUcHHf3g3qvuBvcCpTcop07EQh+SGTDKqmUl7pO65ORk6cZcCHu9szwA=
         - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAFZBDWCb/QNXOSHkhOSc9JdK9J5HhAotpYQL+j0qCyBVF19mJAbhMHVkX8I63nzGwncOVQCyEtX+NOsLxzn8qwcDAGZqq3AfHs+bubAlaFwbAB4kCwYtM176i2tbmAenocyHsC7I2dde3k8GsvytvvRTgIyyBkSljvrGBq3Oqim6LV6OQ== rcrosby@Anthony
-        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF6C9WrxS7xRxbZNTz7sHkD1LdgQwg3RV4T0dH1YACiHrXYU5MGAhRgbof1ZZXEHFWsurG0oFqDDPcG47lDp8TM= 
 storage:
   files:
     - path: /etc/hostname
