@@ -60,4 +60,4 @@
   delegate_to: localhost
   copy:
     content: "{{ kubernetes_bearer_token.stdout_lines[0] }}"
-    dest: ./dashboard_token_{{ansible_date_time.date}}.txt
+    dest: ../.kube/dashboard_token_{{ansible_date_time.date}}.txt

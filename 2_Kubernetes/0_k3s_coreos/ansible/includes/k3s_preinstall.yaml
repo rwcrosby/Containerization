@@ -1,0 +1,18 @@
+---
+
+- name: Download k3s
+  get_url:
+    url: https://get.k3s.io
+    dest: ~/k3s_install
+    mode: 0755
+
+- name: Add my repostory - crictl 
+  become: yes
+  lineinfile: 
+    name: /etc/containers/registries.conf.d/010-c2-node.conf
+    create: yes
+    state: present
+    line: |
+      [[registry]]
+      location="{{ c2_node }}:5000"
+      insecure=true

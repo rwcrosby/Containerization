@@ -1,15 +1,12 @@
 ---
 
-- name: Add my repostory - crictl 
+- name: Install k3s
   become: yes
-  lineinfile: 
-    name: /etc/containers/registries.conf.d/010-c2-node.conf
-    create: yes
-    state: present
-    line: |
-      [[registry]]
-      location="{{ c2_node }}:5000"
-      insecure=true
+  command: ~core/k3s_install
+  environment:
+    K3S_KUBECONFIG_MODE: "644"
+    K3S_URL: "https://{{ hostvars[groups['master'][0]].ansible_default_ipv4.address }}:6443" 
+    K3S_TOKEN: "{{lookup('file', '../.kube/node_token.txt')}}"
 
 - name: Add my repostory - k3s
   become: yes
@@ -22,17 +19,6 @@
         "myreg.local":
           endpoint:
             - "http://{{ c2_node }}:5000"
-
-- name: Check for config existance
-  stat: path=/etc/rancher/k3s/k3s.yaml
-  register: file
-
-- name: Copy k32s config to local directory
-  copy:
-    remote_src: yes
-    src: /etc/rancher/k3s/k3s.yaml
-    dest: ~/.kube/config
-  when: file.stat.exists
 
 - name: Populate service facts
   service_facts:
