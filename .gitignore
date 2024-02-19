@@ -6,4 +6,3 @@ simple
 *.iso
 *.iso.sig
 *.qcow2
-2_Kubernetes/0_setup/ansible/config
