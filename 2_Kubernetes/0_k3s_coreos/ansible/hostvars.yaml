@@ -1,0 +1,18 @@
+--- 
+
+- name: List all known variables and facts
+  hosts: master
+  tasks:
+
+  - name: show all the hosts in the ansible group
+    debug:
+     msg: "{{ hostvars[groups['master'][0]].ansible_default_ipv4.address }}"
+
+  # - debug:
+  #     var: hostvars[inventory_hostname].ansible_default_ipv4.address
+
+  # - debug:
+  #     var: ansible_default_ipv4.address
+
+  # - debug:
+  #     var: hostvars[inventory_hostname]
