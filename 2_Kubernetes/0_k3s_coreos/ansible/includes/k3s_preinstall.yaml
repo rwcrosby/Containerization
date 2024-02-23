@@ -16,3 +16,21 @@
       [[registry]]
       location="{{ c2_node }}:5000"
       insecure=true
+
+- name: Update resolver configuration
+  become: yes
+  lineinfile:
+    name: /etc/systemd/resolved.conf
+    state: present
+    regexp: "^#MulticastDNS=no$"
+    line: "MulticastDNS=yes"
+
+- name: Restart resolver
+  become: yes
+  systemd_service:
+    state: restarted
+    name: systemd-resolved.service
+
+- name: Ping host to verify connectivity
+  ping:
+    data: "{{ c2_node }}"

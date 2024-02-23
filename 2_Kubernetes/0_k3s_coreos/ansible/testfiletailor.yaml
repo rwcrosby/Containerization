@@ -1,0 +1,18 @@
+---
+
+- hosts: master
+  tasks:
+
+  - name: Copy k32s config to host
+    fetch:
+      src: /etc/rancher/k3s/k3s.yaml
+      dest: ../.kube/config
+      flat: yes
+
+  - name: Tailor file on host
+    delegate_to: localhost
+    lineinfile:
+      name: ../.kube/config
+      regexp: '^(\s+server: https://).*(:6443)$'
+      line: '\g<1>{{ hostvars[groups["master"][0]].ansible_default_ipv4.address }}\2'
+      backrefs: yes

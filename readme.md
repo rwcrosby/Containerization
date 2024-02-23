@@ -19,7 +19,7 @@ Need to specify `:z` on the mounted directory to allow write access.
 
 ## 2_Kubernetes
 
-### 0 - Setup k8s on Fedora
+### 0 - Setup k3s on CoreOS
 
 ### 1 - A simple three container environment using compose
 
@@ -148,120 +148,6 @@ Need to specify `:z` on the mounted directory to allow write access.
         - Cleaned up port assignment
 
 - <2023-10-04 Wed 08:13> Init working
-
-### 4 - Setup k3s on CoreOS with MacOS
-
-- <2023-10-05 Thu 11:33> Building initial image
-
-    - Created base.bu file and converted to ignition format
-
-        - MacOS lily's ssh key
-        - Hostname: coreos-base
-        - systemd unit to install avahi and python
-
-        ```
-        podman run -i --rm quay.io/coreos/butane:release --pretty --strict < coreos-base.bu > coreos-base.ign
-        ```
-
-    - Downloaded CoreOS iso and built an iso with the ignition file built it
-
-        https://coreos.github.io/coreos-installer/cmd/iso/
-
-        ```
-        podman run --rm -v $(PWD):/data -w /data quay.io/coreos/coreos-installer:release download -s stable -p metal -f iso
-        
-        podman run --rm -v $(PWD):/data -w /data quay.io/coreos/coreos-installer:release iso customize -o coreos-base.iso --dest-ignition=coreos-base.ign --dest-device=/dev/nvme0n1 fedora-coreos-38.20230918.3.0-live.aarch64.iso
-        ```
-
-    - Setup VM, booted from iso
-
-        - Need to disable cd rom after install
-        - Change hostname after first boot
-            `sudo hostnamectl hostname blahblah`
-        - Need to reboot installed system to get avahi running 
-
-    - Enable mdns on all nodes
-
-        ```
-        sudo nano /etc/systemd/resolved.conf
-
-        MulticastDNS=yes
-
-        ```
-
-- <2023-10-05 Thu 14:11> K3S Server Installation
-
-    https://docs.k3s.io/quick-start
-
-
-    - Installed https://github.com/k3s-io/k3s-selinux/releases/download/v1.4.stable.1/k3s-selinux-1.4-1.el8.noarch.rpm
-
-       ```
-        sudo rpm-ostree install https://github.com/k3s-io/k3s-selinux/releases/download/v1.4.stable.1/k3s-selinux-1.4-1.el8.noarch.rpm
-        ```
-
-    - Installed the server
-
-        ```
-        sudo -i
-        export K3S_KUBECONFIG_MODE="644"
-        export INSTALL_K3S_EXEC=" --disable servicelb --disable traefik"
-
-        curl -sfL https://get.k3s.io | sh -
-        ```
-
-    - Get node token
-
-    ```
-    K10411ea3ddb97d7ce0e85e218ecad7b449edc926d9478510a85fd27c27214f1611::server:7cdeb9743d07d5c798559f00280de5dc
-    K10637682fc64269be0020417969c52e3d12dee137b0becc5ba5c6793957c5742bb::server:2a47f3df3c0e3cbfb5a91fef832d3262
-    ```
-
-- <2023-10-05 Thu 14:31> K3S Worker Installation
-
-    ```
-    export K3S_KUBECONFIG_MODE="644"
-    export K3S_URL="https://k3s-1.local:6443"
-    export K3S_TOKEN="K10637682fc64269be0020417969c52e3d12dee137b0becc5ba5c6793957c5742bb::server:2a47f3df3c0e3cbfb5a91fef832d3262"
-
-    curl -sfL https://get.k3s.io | sh -
-    ```
-
-- <2023-10-05 Thu 15:39> Remote access
-
-    - Downloaded `/etc/rancher/k3s/k3s.yaml`
-    - Pointed KUBECONFIG to downloaded file in `.envrc`
-
-- <2023-10-06 Fri 16:17> Setup private registry
-
-    - See `ansible\includes\k3s_setup.yaml`
-
-        https://docs.k3s.io/installation/private-registry
-        https://stackoverflow.com/questions/66223725/k3s-image-pull-from-private-registries
-
-- <2023-10-06 Fri 16:21> Get mDNS resolution working on RHEL
-
-    https://rhel.pkgs.org/9/epel-x86_64/nss-mdns-0.15.1-3.1.el9.x86_64.rpm.html
-
-- <2023-10-06 Fri 16:17> Cordon/Drain/Uncordon
-
-    ```
-    kubectl cordon <node>
-    kubectl drain <node>
-    kubectl uncordon <node>
-    ```
-
-- <2023-10-06 Fri 07:38> Cleaned up cluster configuration handling
-
-    - Keep cluster config in local directory but link to `~/.kube/config` as needed
-
-- <2023-10-06 Fri 08:10> Setup notes
-
-    - Need to install pip
-    - Need to link kube config to `~core\.kube\config`
-    - Dashboard working
-
-- <2023-10-06 Fri 16:36> Flask-2 and Flask-3 working
 
 # References
 

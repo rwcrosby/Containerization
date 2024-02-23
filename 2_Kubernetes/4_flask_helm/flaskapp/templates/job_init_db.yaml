@@ -1,0 +1,33 @@
+# kubectl create secret generic dbauth --from-literal=password=password
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db-job-3
+annotations:
+  "helm.sh/hook": "post-install"
+spec:
+  template: 
+    spec:
+      containers:
+      - image: myreg.local/flaskapp/init:v3
+        name: init-db
+        command: ["python"]
+        args: 
+          - "init_db.py"
+          - "--password=$(PASSWORD)"
+          - "--dbhost=mysql"
+          - "--dbport=3306"
+          - "user.sql"
+          - "schema.sql"
+          - "data.sql"
+        env:
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: flask-secrets
+                key: root-password  
+        imagePullPolicy: Always
+      restartPolicy: Never
