@@ -13,7 +13,7 @@ storage:
       mode: 0644
       contents:
         inline: |
-          k3s-2
+          vmname
 systemd:
   units:
     - name: rpm-ostree-install.service

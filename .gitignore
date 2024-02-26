@@ -6,3 +6,5 @@ simple
 *.iso
 *.iso.sig
 *.qcow2
+*.ign
+tailored*
