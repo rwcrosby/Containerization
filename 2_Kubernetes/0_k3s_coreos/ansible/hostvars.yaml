@@ -1,18 +1,39 @@
 --- 
 
 - name: List all known variables and facts
-  hosts: master
+  hosts: all
   tasks:
 
-  - name: show all the hosts in the ansible group
-    debug:
-     msg: "{{ hostvars[groups['master'][0]].ansible_default_ipv4.address }}"
+  # - debug:
+      # var: hostvars
+
+  - name: Look up A (IPv4) records for c2_node
+    command: "dig +short {{c2_node}}"
+    register: c2_ip    
+
+  - debug:
+      msg: "{{c2_ip.stdout[0]}}"
+
+  - name: Populate service facts - before install
+    service_facts:
 
   # - debug:
-  #     var: hostvars[inventory_hostname].ansible_default_ipv4.address
+  #     var: services
 
-  # - debug:
-  #     var: ansible_default_ipv4.address
+  - name: Service
+    debug: 
+      var: "'k3s-agent.service' not in services"
 
-  # - debug:
-  #     var: hostvars[inventory_hostname]
+  - name: State
+    debug: 
+      var: "services['k3s-agent.service'].state != 'running'"
+
+  - name: State Display
+    debug: 
+      var: "services['k3s-agent.service'].state"
+
+  - name: Both
+    debug: 
+      var: "'k3s-agent.service' not in services or services['k3s-agent.service'].state != 'running'"
+
+

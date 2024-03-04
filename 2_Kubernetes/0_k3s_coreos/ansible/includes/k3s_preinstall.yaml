@@ -24,13 +24,19 @@
     state: present
     regexp: "^#MulticastDNS=no$"
     line: "MulticastDNS=yes"
+  register: resolver
 
 - name: Restart resolver
   become: yes
   systemd_service:
     state: restarted
     name: systemd-resolved.service
+  when: resolver is changed
 
 - name: Ping host to verify connectivity
   ping:
     data: "{{ c2_node }}"
+
+- name: Look up A (IPv4) records for c2_node
+  command: "dig +short {{c2_node}}"
+  register: c2_ip    
