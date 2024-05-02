@@ -5,18 +5,32 @@ VM_NAME=${1-"k3s"}
 
 BASE=$(pwd)
 
-IMAGE=$BASE/fedora-coreos-39.20240128.3.0-qemu.x86_64.qcow2
-BUTANE_CONFIG="coreos-base.bu"
+# IMAGE=$BASE/fedora-coreos-39.20240128.3.0-qemu.x86_64.qcow2
+IMAGE=$BASE/fedora-coreos-39.20240210.3.0-qemu.x86_64.qcow2
+
+BUTANE_CONFIG=${2-"coreos-base.bu"}
+BUTANE_CONFIG_TAILORED="tailored-${BUTANE_CONFIG}"
+
 IGNITION_INP="/tmp/coreos-base.ign"
 IGNITION_CONFIG="/var/lib/libvirt/images/coreos-base.ign"
+IGNITION_DEVICE_ARG=(--qemu-commandline="-fw_cfg name=opt/com.coreos/config,file=${IGNITION_CONFIG}")
+
 VCPUS="2"
 RAM_MB="4096"
 STREAM="stable"
-DISK_GB="20"
-IGNITION_DEVICE_ARG=(--qemu-commandline="-fw_cfg name=opt/com.coreos/config,file=${IGNITION_CONFIG}")
+DISK_GB="101"
+
+# Update the hostname in thne butane file
+sed "s/vmname/${VM_NAME}/" < ${BUTANE_CONFIG} > ${BUTANE_CONFIG_TAILORED}
 
 # Generate ignition file from butane input
-podman run -i --rm quay.io/coreos/butane:release --pretty --strict < ${BUTANE_CONFIG} > ${IGNITION_INP}
+podman run \
+    -i \
+    --rm \
+    quay.io/coreos/butane:release \
+    --pretty \
+    --strict \
+    < ${BUTANE_CONFIG_TAILORED} > ${IGNITION_INP}
 
 # Copy to libvirt so apparmor is happy
 sudo cp ${IGNITION_INP} /var/lib/libvirt/images/

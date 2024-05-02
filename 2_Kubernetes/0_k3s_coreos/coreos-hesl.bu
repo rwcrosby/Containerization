@@ -1,0 +1,78 @@
+variant: fcos
+version: 1.5.0
+passwd:
+  users:
+    - name: core
+      # furbrain
+      password_hash: $y$j9T$16JCzktLMR/Jk6xWIKZem0$Mi/57k26keXAtYaohG2O3XjQurHcnkJOp9lDXjGm0d7
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIACWUW7jH3F7NPDEGewAIlCWRPJb+5FH6IWnHTxd8DlM rcrosby@rwc-xps
+        - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNLo7/IMuH4r38IaECqrBV/qiLUrJ6shUcHHf3g3qvuBvcCpTcop07EQh+SGTDKqmUl7pO65ORk6cZcCHu9szwA=
+        - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAFZBDWCb/QNXOSHkhOSc9JdK9J5HhAotpYQL+j0qCyBVF19mJAbhMHVkX8I63nzGwncOVQCyEtX+NOsLxzn8qwcDAGZqq3AfHs+bubAlaFwbAB4kCwYtM176i2tbmAenocyHsC7I2dde3k8GsvytvvRTgIyyBkSljvrGBq3Oqim6LV6OQ== rcrosby@Anthony
+storage:
+
+  disks:
+  - device: /dev/disk/by-id/coreos-boot-disk
+    wipe_table: false
+    partitions:
+
+    - number: 4
+      label: root
+      # Allocate at least 8 GiB to the rootfs. See NOTE above about this.
+      size_mib: 10000
+      resize: true
+
+    - size_mib: 50000
+      label: containerd
+
+    - size_mib: 20000
+      label: camgian
+
+    - size_mib: 20000
+      label: state
+
+  filesystems:
+    - path: /var/lib/rancher
+      device: /dev/disk/by-partlabel/containerd
+      format: btrfs
+      with_mount_unit: true
+
+    - path: /var/opt/camgian
+      device: /dev/disk/by-partlabel/camgian
+      format: btrfs
+      with_mount_unit: true
+
+    - path: /run/k3s/containerd
+      device: /dev/disk/by-partlabel/state
+      format: btrfs
+      with_mount_unit: true
+
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: |
+          hesl-1
+
+systemd:
+  units:
+    - name: rpm-ostree-install.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install additional packages
+        Wants=network-online.target
+        After=network-online.target
+        # We run before `zincati.service` to avoid conflicting rpm-ostree
+        # transactions.
+        Before=zincati.service
+        ConditionPathExists=!/var/lib/%N.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive avahi python htop mc tmux
+        ExecStart=/bin/touch /var/lib/%N.stamp
+
+        [Install]
+        WantedBy=multi-user.target
