@@ -21,6 +21,7 @@
   become: yes
   lineinfile:
     name: /etc/systemd/resolved.conf
+    create: true
     state: present
     regexp: "^#MulticastDNS=no$"
     line: "MulticastDNS=yes"

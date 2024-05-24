@@ -3,6 +3,7 @@ version: 1.4.0
 passwd:
   users:
     - name: core
+      password_hash: $y$j9T$33ALeuSZ3YaElB8G05gJd0$pzn4MV1cRqlnYsA.kg8zEdOGf0clqcd3sBhYunWhBu4
       ssh_authorized_keys:
         - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIACWUW7jH3F7NPDEGewAIlCWRPJb+5FH6IWnHTxd8DlM rcrosby@rwc-xps
         - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNLo7/IMuH4r38IaECqrBV/qiLUrJ6shUcHHf3g3qvuBvcCpTcop07EQh+SGTDKqmUl7pO65ORk6cZcCHu9szwA=
@@ -31,8 +32,9 @@ systemd:
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        ExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive avahi python htop mc tmux
+        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive avahi python python3-pip python3-packaging htop mc tmux
         ExecStart=/bin/touch /var/lib/%N.stamp
+        ExecStart=/bin/systemctl --no-block reboot
 
         [Install]
         WantedBy=multi-user.target

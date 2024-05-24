@@ -1,21 +1,5 @@
 ---
 
-- name: Install pip if required
-  when: ansible_user_id == "core"
-  block:
-
-    - name: Install pip
-      become: yes
-      community.general.rpm_ostree_pkg:
-        name: python3-pip
-        state: present
-      register: pip_install
-
-    - name: Restart
-      become: yes
-      reboot:
-      when: pip_install.changed
-
 - name: Install Python interface package
   pip:
     name:

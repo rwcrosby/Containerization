@@ -4,12 +4,12 @@
 VM_NAME=${1-"k3s"}
 
 BASE=$(pwd)
+IMAGE_BASE=$HOME/.local/share/libvirt/images
 
-# IMAGE=$BASE/fedora-coreos-39.20240128.3.0-qemu.x86_64.qcow2
-IMAGE=$BASE/fedora-coreos-39.20240210.3.0-qemu.x86_64.qcow2
+IMAGE=$IMAGE_BASE/fedora-coreos-40.20240504.3.0-qemu.x86_64.qcow2
 
 BUTANE_CONFIG=${2-"coreos-base.bu"}
-BUTANE_CONFIG_TAILORED="tailored-${BUTANE_CONFIG}"
+BUTANE_CONFIG_TAILORED="/tmp/tailored-${BUTANE_CONFIG}"
 
 IGNITION_INP="/tmp/coreos-base.ign"
 IGNITION_CONFIG="/var/lib/libvirt/images/coreos-base.ign"
@@ -18,7 +18,7 @@ IGNITION_DEVICE_ARG=(--qemu-commandline="-fw_cfg name=opt/com.coreos/config,file
 VCPUS="2"
 RAM_MB="4096"
 STREAM="stable"
-DISK_GB="101"
+DISK_GB="20"
 
 # Update the hostname in thne butane file
 sed "s/vmname/${VM_NAME}/" < ${BUTANE_CONFIG} > ${BUTANE_CONFIG_TAILORED}
